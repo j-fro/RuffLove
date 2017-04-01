@@ -1,9 +1,9 @@
-export enum root {
-    profile,
-    main
+export enum RootRoute {
+    Profile,
+    Main
 }
 
-export enum main {
-    swiper,
-    details
+export enum MainRoute {
+    Swiper,
+    Details
 }

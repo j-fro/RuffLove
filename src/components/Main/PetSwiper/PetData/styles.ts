@@ -1,14 +1,17 @@
-import { StyleSheet, FlexAlignType, FlexJustifyType, ViewStyle } from 'react-native';
+import { StyleSheet, ViewStyle, ImageStyle } from 'react-native';
+import { secondaryBackground } from '../../../../config/colors';
 import parentStyles from '../styles';
 
 interface IStyle {
-    container: ViewStyle
-    shadowBox: ViewStyle
+    portrait: ImageStyle;
+    container: ViewStyle;
+    shadowBox: ViewStyle;
 }
 
 const styles = StyleSheet.create<IStyle>({
     container: {
-        flex: 1, alignSelf: 'stretch'
+        flex: 1,
+        alignSelf: 'stretch',
     },
     shadowBox: {
         alignSelf: 'stretch',
@@ -17,13 +20,18 @@ const styles = StyleSheet.create<IStyle>({
         justifyContent: 'center',
         borderRadius: 10,
         padding: 10,
-        backgroundColor: '#fff',
+        backgroundColor: secondaryBackground,
         shadowOpacity: 0.5,
         shadowOffset: {
             width: 5,
             height: 5
         }
-    }
+    },
+    portrait: {
+        flex: 1,
+        alignSelf: 'stretch',
+        borderRadius: 10,
+    },
 });
 
 export default {

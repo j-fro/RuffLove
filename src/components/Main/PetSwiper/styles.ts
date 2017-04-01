@@ -1,9 +1,9 @@
-import { StyleSheet, TextStyle, ViewStyle, ImageStyle } from 'react-native';
+import { StyleSheet, TextStyle, ViewStyle } from 'react-native';
+import { secondaryBackground, textColor } from '../../../config/colors';
 import parentStyles from '../styles';
 
 interface IStyle {
-    container: ViewStyle;
-    portrait: ImageStyle;
+
     name: TextStyle;
     icon: ViewStyle;
     buttonStack: ViewStyle;
@@ -11,25 +11,14 @@ interface IStyle {
 }
 
 const styles = StyleSheet.create<IStyle>({
-    portrait: {
-        flex: 1,
-        alignSelf: 'stretch',
-        borderRadius: 10
-    },
     name: {
+        color: textColor,
         paddingTop: 15,
         paddingBottom: 5,
         alignSelf: 'stretch',
         textAlign: 'center',
         fontWeight: '600',
         fontSize: 18
-    },
-    container: {
-        alignSelf: 'stretch',
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 10
     },
     icon: {
         flexDirection: 'column',
@@ -49,7 +38,8 @@ const styles = StyleSheet.create<IStyle>({
         borderRadius: 40,
         margin: 15,
         shadowOpacity: 0.5,
-        backgroundColor: '#fff',
+
+        backgroundColor: secondaryBackground,
         shadowOffset: {
             width: 5,
             height: 5

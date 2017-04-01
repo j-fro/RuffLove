@@ -6,6 +6,7 @@ import styles from './styles';
 interface IPetDataProps {
     isFetching: boolean;
     pet: Pet;
+    onPress: () => void;
 }
 
 export default function PetData(props: IPetDataProps) {
@@ -18,7 +19,7 @@ export default function PetData(props: IPetDataProps) {
     }
 
     return (
-        <TouchableHighlight style={styles.shadowBox}>
+        <TouchableHighlight style={styles.shadowBox} onPress={props.onPress}>
             <View style={styles.container}>
                 <Image style={styles.portrait} source={{ uri: props.pet.imageUrls[0] }} />
                 <Text style={styles.name}>{props.pet.name}</Text>
