@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import thunkMiddleware from 'redux-thunk';
 import { createLogger } from 'redux-logger';
 import reducer from '../state/reducers';
+import { fetchPet } from '../state/actions';
 import Main from './Main/Main';
 import { RootRoute } from '../config/routes';
 
@@ -17,6 +18,10 @@ interface IRuffLoveProps { }
 interface IRuffLoveState { }
 
 class RuffLove extends Component<IRuffLoveProps, IRuffLoveState> {
+    componentDidMount() {
+        store.dispatch(fetchPet(store.getState().offset, '55401'));
+    }
+
     render() {
         const Nav = TabNavigator({
             [RootRoute.Main]: { screen: Main }
