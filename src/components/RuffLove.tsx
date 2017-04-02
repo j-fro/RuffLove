@@ -19,7 +19,10 @@ interface IRuffLoveState { }
 
 class RuffLove extends Component<IRuffLoveProps, IRuffLoveState> {
     componentDidMount() {
+        // Fetch 2 pets on initial app load. TODO: Revisit this if/when getting sequential pets is
+        // unwanted behavior
         store.dispatch(fetchPet(store.getState().offset, '55401'));
+        store.dispatch(fetchPet(store.getState().offset + 1, '55401'));
     }
 
     render() {

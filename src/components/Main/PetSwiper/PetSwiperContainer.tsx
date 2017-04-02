@@ -23,14 +23,6 @@ interface IPetSwiperContainerState {
 }
 
 class PetSwiperContainer extends Component<IPetSwiperContainerProps, IPetSwiperContainerState> {
-    constructor(props: IPetSwiperContainerProps, context: any) {
-        super(props, context);
-    }
-
-    componentDidMount() {
-        this.props.dispatch(fetchPet(this.props.offset, '55401'));
-    }
-
     handleNextPress() {
         this.props.dispatch({ type: actions.advance_pet });
         this.props.dispatch(fetchPet(this.props.offset, '55401'));
