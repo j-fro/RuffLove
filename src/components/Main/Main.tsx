@@ -13,12 +13,6 @@ export default class Main extends Component<IMainProps, IMainState> {
         title: 'Ruff Love'
     };
 
-    constructor(props: IMainProps, context: any) {
-        super(props, context);
-
-        console.log('Mainprops', props);
-    }
-
     render() {
         const Nav = StackNavigator({
             [MainRoute[MainRoute.Swiper]]: { screen: PetSwiper },

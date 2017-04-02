@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { IAppState } from '../../../state/reducers';
-import { fetchPet } from '../../../state/actions';
+import { actions, fetchPet } from '../../../state/actions';
 import { MainRoute } from '../../../config/routes';
 import PetSwiper from './PetSwiper';
 import { Pet } from '../../../state/Pet';
@@ -25,8 +25,6 @@ interface IPetSwiperContainerState {
 class PetSwiperContainer extends Component<IPetSwiperContainerProps, IPetSwiperContainerState> {
     constructor(props: IPetSwiperContainerProps, context: any) {
         super(props, context);
-
-        this.state = { isFetching: true, pet: new Pet(), offset: 0 };
     }
 
     componentDidMount() {
@@ -34,6 +32,7 @@ class PetSwiperContainer extends Component<IPetSwiperContainerProps, IPetSwiperC
     }
 
     handleNextPress() {
+        this.props.dispatch({ type: actions.advance_pet });
         this.props.dispatch(fetchPet(this.props.offset, '55401'));
     }
 

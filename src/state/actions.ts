@@ -17,6 +17,7 @@ export const actions = {
     request_next_pet_start: 'request_next_pet_start',
     request_next_pet_success: 'request_next_pet_success',
     request_next_pet_failure: 'request_next_pet_failure',
+    advance_pet: 'advance_pet'
 };
 
 function requestNextPet(offset: number): Action {
@@ -31,7 +32,10 @@ export function fetchPet(offset: number, zip: string) {
     return (dispatch: Function) => {
         dispatch(requestNextPet(offset));
 
-        let url = `https://api.petfinder.com/pet.find?animal=dog&count=1&location=${zip}&format=json&key=${config.key}`;
+        const query = `pet.find?animal=dog&count=1&location=${zip}`;
+
+        let url = `https://api.petfinder.com/${query}&format=json&key=${config.key}`;
+
         if (offset) {
             url += `&offset=${offset}`;
         }
@@ -45,7 +49,7 @@ export function fetchPet(offset: number, zip: string) {
                     age: pet.age.$t,
                     name: pet.name.$t,
                     size: pet.size.$t,
-                    desciption: pet.description.$t,
+                    description: pet.description.$t,
                     sex: pet.sex.$t,
                     imageUrls: pet.media.photos.photo
                         .filter((photo: any) => photo['@size'] === 'x')

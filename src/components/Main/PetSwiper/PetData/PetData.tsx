@@ -10,7 +10,7 @@ interface IPetDataProps {
 }
 
 export default function PetData(props: IPetDataProps) {
-    if (props.isFetching) {
+    if (props.pet == null) {
         return (
             <View style={styles.shadowBox}>
                 <ActivityIndicator size='large' />
