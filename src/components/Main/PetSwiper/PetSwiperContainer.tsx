@@ -27,7 +27,7 @@ interface IPetSwiperContainerState {
 class PetSwiperContainer extends Component<IPetSwiperContainerProps, IPetSwiperContainerState> {
     handleNextPress() {
         this.props.dispatch({ type: actions.advance_pet });
-        this.props.dispatch(fetchPet(this.props.offset, this.props.postalCode));
+        this.props.dispatch(fetchPet());
     }
 
     handleDetailsPress() {

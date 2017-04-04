@@ -1,4 +1,5 @@
 import { Pet } from './Pet';
+import { IAppState } from './reducers';
 import config from '../config/keys';
 
 export interface Action {
@@ -31,11 +32,12 @@ function receiveNextPet(offset: number, pet: Pet): Action {
 }
 
 function errorNextPet(error: Error): Action {
-    return { type: actions.request_next_pet_failure, error }
+    return { type: actions.request_next_pet_failure, error };
 }
 
-export function fetchPet(offset: number, postalCode: string) {
-    return (dispatch: Function) => {
+export function fetchPet() {
+    return (dispatch: Function, getState: () => IAppState) => {
+        let { postalCode, offset } = getState();
         dispatch(requestNextPet(offset));
 
         const query = `pet.find?animal=dog&count=1&location=${postalCode}`;
@@ -49,7 +51,6 @@ export function fetchPet(offset: number, postalCode: string) {
         return fetch(url)
             .then(res => res.json())
             .then((res: any) => {
-                console.log(res);
                 offset = res.petfinder.lastOffset.$t;
                 let { pet } = res.petfinder.pets;
                 pet = {
@@ -65,7 +66,7 @@ export function fetchPet(offset: number, postalCode: string) {
                 dispatch(receiveNextPet(offset, pet));
             })
             .catch(err => {
-                dispatch(errorNextPet(err))
+                dispatch(errorNextPet(err));
             });
     };
 }
