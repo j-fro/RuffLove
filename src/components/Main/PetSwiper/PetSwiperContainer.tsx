@@ -11,6 +11,7 @@ interface IPetSwiperContainerProps {
     isFetching: boolean;
     dispatch: Function;
     offset: number;
+    postalCode: string;
     navigation: {
         navigate: Function,
     };
@@ -20,12 +21,13 @@ interface IPetSwiperContainerState {
     pet: Pet;
     isFetching: boolean;
     offset: number;
+    postalCode: string;
 }
 
 class PetSwiperContainer extends Component<IPetSwiperContainerProps, IPetSwiperContainerState> {
     handleNextPress() {
         this.props.dispatch({ type: actions.advance_pet });
-        this.props.dispatch(fetchPet(this.props.offset, '55401'));
+        this.props.dispatch(fetchPet(this.props.offset, this.props.postalCode));
     }
 
     handleDetailsPress() {
@@ -46,7 +48,8 @@ function mapStateToProps(state: IAppState) {
     return {
         pet: state.currentPet,
         isFetching: state.isFetching,
-        offset: state.offset
+        offset: state.offset,
+        postalCode: state.postalCode
     };
 }
 

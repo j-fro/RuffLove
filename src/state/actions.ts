@@ -3,9 +3,10 @@ import config from '../config/keys';
 
 export interface Action {
     type: string;
-    offset: number;
+    offset?: number;
     pet?: Pet;
     error?: Error;
+    postalCode?: string;
 }
 
 export const actions = {
@@ -17,7 +18,8 @@ export const actions = {
     request_next_pet_start: 'request_next_pet_start',
     request_next_pet_success: 'request_next_pet_success',
     request_next_pet_failure: 'request_next_pet_failure',
-    advance_pet: 'advance_pet'
+    advance_pet: 'advance_pet',
+    change_postal_code: 'change_postal_code'
 };
 
 function requestNextPet(offset: number): Action {
@@ -28,11 +30,15 @@ function receiveNextPet(offset: number, pet: Pet): Action {
     return { type: actions.request_next_pet_success, offset, pet };
 }
 
-export function fetchPet(offset: number, zip: string) {
+function errorNextPet(error: Error): Action {
+    return { type: actions.request_next_pet_failure, error }
+}
+
+export function fetchPet(offset: number, postalCode: string) {
     return (dispatch: Function) => {
         dispatch(requestNextPet(offset));
 
-        const query = `pet.find?animal=dog&count=1&location=${zip}`;
+        const query = `pet.find?animal=dog&count=1&location=${postalCode}`;
 
         let url = `https://api.petfinder.com/${query}&format=json&key=${config.key}`;
 
@@ -43,6 +49,7 @@ export function fetchPet(offset: number, zip: string) {
         return fetch(url)
             .then(res => res.json())
             .then((res: any) => {
+                console.log(res);
                 offset = res.petfinder.lastOffset.$t;
                 let { pet } = res.petfinder.pets;
                 pet = {
@@ -57,6 +64,8 @@ export function fetchPet(offset: number, zip: string) {
                 };
                 dispatch(receiveNextPet(offset, pet));
             })
-            .catch(err => err);
+            .catch(err => {
+                dispatch(errorNextPet(err))
+            });
     };
 }
