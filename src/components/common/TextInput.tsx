@@ -2,13 +2,11 @@ import React, { Component, ComponentState } from 'react';
 import { View, TextInput, TextInputProperties, ViewStatic, TextInputStatic } from 'react-native';
 import { secondaryBackground } from '../../config/colors';
 
-interface ICommonTextInputProps {
+interface ICommonTextInputProps extends TextInputProperties {
     getRef: (
         ((instance: Component<TextInputProperties, ComponentState>) => any)
         & ((instance: ViewStatic & TextInputStatic) => any)
     );
-    onChangeText: (text: string) => void;
-    placeholder: string;
 }
 
 function CommonTextInput(props: ICommonTextInputProps) {
@@ -26,8 +24,6 @@ function CommonTextInput(props: ICommonTextInputProps) {
             }
         }}>
             <TextInput
-                placeholder={props.placeholder}
-                onChangeText={props.onChangeText}
                 ref={props.getRef}
                 {...props}
                 style={{ flex: 1, margin: 10, lineHeight: 24, height: 24 }}
