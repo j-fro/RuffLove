@@ -1,5 +1,5 @@
 import { StyleSheet, ViewStyle, ImageStyle } from 'react-native';
-import { secondaryBackground } from '../../../../config/colors';
+import { secondaryBackground } from '../../../../../config/colors';
 import parentStyles from '../styles';
 
 interface IStyle {
@@ -25,7 +25,8 @@ const styles = StyleSheet.create<IStyle>({
         shadowOffset: {
             width: 5,
             height: 5
-        }
+        },
+        elevation: 5
     },
     portrait: {
         flex: 1,

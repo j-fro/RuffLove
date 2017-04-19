@@ -1,13 +1,11 @@
 import { StyleSheet, TextStyle, ViewStyle } from 'react-native';
-import { secondaryBackground, textColor } from '../../../config/colors';
+import { textColor } from '../../../../config/colors';
 import parentStyles from '../styles';
 
 interface IStyle {
-
     name: TextStyle;
     icon: ViewStyle;
     buttonStack: ViewStyle;
-    button: ViewStyle;
 }
 
 const styles = StyleSheet.create<IStyle>({
@@ -29,22 +27,7 @@ const styles = StyleSheet.create<IStyle>({
         flexDirection: 'row',
         justifyContent: 'center'
     },
-    button: {
-        alignSelf: 'stretch',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: 80,
-        width: 80,
-        borderRadius: 40,
-        margin: 15,
-        shadowOpacity: 0.5,
 
-        backgroundColor: secondaryBackground,
-        shadowOffset: {
-            width: 5,
-            height: 5
-        }
-    }
 });
 
 export default { ...parentStyles, ...styles };

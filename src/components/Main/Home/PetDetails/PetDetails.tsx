@@ -1,7 +1,7 @@
 import React from 'react';
 import { ScrollView, View, Text, Dimensions, Image } from 'react-native';
 import Swiper from 'react-native-swiper';
-import { Pet } from '../../../state/Pet';
+import { Pet } from '../../../../state/Pet';
 import styles from './styles';
 
 const { width } = Dimensions.get('window');

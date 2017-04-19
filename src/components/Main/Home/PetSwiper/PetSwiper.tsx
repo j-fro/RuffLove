@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, TouchableHighlight, Image } from 'react-native';
+import { View, Image } from 'react-native';
 import PetData from './PetData';
-import { Pet } from '../../../state/Pet';
-import { acceptIcon, declineIcon } from '../../../config/images';
+import { Pet } from '../../../../state/Pet';
+import { Button } from '../../../common/';
+import { acceptIcon, declineIcon } from '../../../../config/images';
 import styles from './styles';
 
 interface IPetSwiperProps {
@@ -30,11 +31,12 @@ interface IIconButtonProps {
 }
 
 const IconButton = (props: IIconButtonProps) => (
-    <TouchableHighlight style={styles.button} onPress={props.onPress}>
+    <Button onPress={props.onPress}>
         <Image style={styles.icon} source={props.source} />
-    </TouchableHighlight>
+    </Button>
 );
 
-const AcceptButton = (props: { onPress: () => void }) => <IconButton source={acceptIcon} {...props} />;
+const AcceptButton =
+    (props: { onPress: () => void }) => <IconButton source={acceptIcon} {...props} />;
 
 const DeclineButton = (props: { onPress: () => void }) => <IconButton source={declineIcon} {...props} />;

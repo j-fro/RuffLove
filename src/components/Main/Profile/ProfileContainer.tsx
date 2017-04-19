@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { ViewStatic, TextInputStatic } from 'react-native';
 import { connect } from 'react-redux';
-import { IAppState } from '../../state/reducers';
-import { actions } from '../../state/actions';
+import { IAppState } from '../../../state/state';
+import { ActionType } from '../../../state/actionsTypes';
 import Profile from './Profile';
 
 interface IProfileContainerProps {
+    petType: 'dog' | 'cat';
     postalCode: string;
     dispatch: Function;
 }
@@ -23,17 +24,26 @@ class ProfileContainer extends Component<IProfileContainerProps, {}> {
     }
 
     handleChangePostalCode(postalCode: string) {
-        this.props.dispatch({ type: actions.change_postal_code, postalCode });
+        this.props.dispatch({ type: ActionType.change_postal_code, postalCode });
+    }
+
+    handleChangePetType = () => {
+        this.props.dispatch({ type: ActionType.switch_pet_type });
     }
 
     render() {
         return (
             <Profile
                 onChangePostalCode={this.handleChangePostalCode.bind(this)}
+                onChangePetType={this.handleChangePetType}
                 postalRef={this.postalRef.bind(this)}
+                petType={this.props.petType}
             />
         );
     }
 }
 
-export default connect((state: IAppState) => ({ postalCode: state.postalCode }))(ProfileContainer);
+const mapStateToProps = ({ profile }: IAppState) =>
+    ({ postalCode: profile.postalCode, petType: profile.petType })
+
+export default connect(mapStateToProps)(ProfileContainer);

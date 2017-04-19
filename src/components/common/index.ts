@@ -1,3 +1,6 @@
-import CommonTextInput from './TextInput';
+import TextInput from './TextInput';
+import EmailInput from './EmailInput';
+import PasswordInput from './PasswordInput';
+import Button from './Button';
 
-export const TextInput = CommonTextInput;
+export { TextInput, EmailInput, PasswordInput, Button }

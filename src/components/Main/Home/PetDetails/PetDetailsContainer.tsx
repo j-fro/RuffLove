@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PetDetails from './PetDetails';
-import { IAppState } from '../../../state/reducers';
-import { Pet } from '../../../state/Pet';
+import { IAppState } from '../../../../state/state';
+import { Pet } from '../../../../state/Pet';
 
 interface IPetDetailsContainerProps {
     pet: Pet;
@@ -20,6 +20,6 @@ class PetDetailsContainer extends Component<IPetDetailsContainerProps, IPetDetai
     }
 }
 
-const mapStateToProps = (state: IAppState) => ({ pet: state.currentPet });
+const mapStateToProps = ({ pets }: IAppState) => ({ pet: pets.currentPet });
 
 export default connect(mapStateToProps)(PetDetailsContainer);

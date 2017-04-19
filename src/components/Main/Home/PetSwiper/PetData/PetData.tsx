@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Image, Text, ActivityIndicator, TouchableHighlight } from 'react-native';
-import { Pet } from '../../../../state/Pet';
+import { Pet } from '../../../../../state/Pet';
 import styles from './styles';
 
 interface IPetDataProps {

@@ -1,6 +1,6 @@
 import React, { Component, ComponentState } from 'react';
-import { View, ViewStatic, TextInputStatic, TextInputProperties } from 'react-native';
-import { TextInput } from '../common';
+import { View, ViewStatic, TextInputStatic, TextInputProperties, Switch } from 'react-native';
+import { TextInput } from '../../common';
 import styles from './styles';
 
 interface IProfileProps {
@@ -9,6 +9,8 @@ interface IProfileProps {
         & ((instance: ViewStatic & TextInputStatic) => any)
     );
     onChangePostalCode: (text: string) => void;
+    onChangePetType: () => void;
+    petType: 'dog' | 'cat';
 }
 
 function Profile(props: IProfileProps) {
@@ -19,6 +21,7 @@ function Profile(props: IProfileProps) {
                 onChangeText={props.onChangePostalCode}
                 getRef={props.postalRef}
             />
+            <Switch onValueChange={props.onChangePetType} value={props.petType === 'dog'} />
         </View>
     );
 }

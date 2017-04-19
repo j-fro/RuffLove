@@ -1,5 +1,5 @@
 import { StyleSheet, ViewStyle, ImageStyle, TextStyle, Dimensions } from 'react-native';
-import { primaryColor, secondaryBackground, textColor } from '../../../config/colors';
+import { primaryColor, secondaryBackground, textColor } from '../../../../config/colors';
 import parentStyles from '../styles';
 
 const { width } = Dimensions.get('window');

@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { IAppState } from '../../../state/reducers';
-import { actions, fetchPets } from '../../../state/actions';
-import { MainRoute } from '../../../config/routes';
+import { IAppState } from '../../../../state/state';
+import { fetchPets } from '../../../../state/actions';
+import { ActionType } from '../../../../state/actionsTypes';
+import { HomeRoute } from '../../../../config/routes';
+import { Pet } from '../../../../state/Pet';
 import PetSwiper from './PetSwiper';
-import { Pet } from '../../../state/Pet';
 
 interface IPetSwiperContainerProps {
     pet: Pet;
@@ -26,30 +27,32 @@ interface IPetSwiperContainerState {
 
 class PetSwiperContainer extends Component<IPetSwiperContainerProps, IPetSwiperContainerState> {
     handleNextPress() {
-        this.props.dispatch({ type: actions.advance_pet });
+        this.props.dispatch({ type: ActionType.advance_pet });
         this.props.dispatch(fetchPets());
     }
 
     handleDetailsPress() {
         const { navigate } = this.props.navigation;
-        navigate(MainRoute[MainRoute.Details]);
+        navigate(HomeRoute[HomeRoute.Details]);
     }
 
     render() {
-        return <PetSwiper
-            onNextPress={this.handleNextPress.bind(this)}
-            onDetailsPress={this.handleDetailsPress.bind(this)}
-            {...this.props}
-        />;
+        return (
+            <PetSwiper
+                onNextPress={this.handleNextPress.bind(this)}
+                onDetailsPress={this.handleDetailsPress.bind(this)}
+                {...this.props}
+            />
+        );
     }
 }
 
-function mapStateToProps(state: IAppState) {
+function mapStateToProps({ pets, profile }: IAppState) {
     return {
-        pet: state.currentPet,
-        isFetching: state.isFetching,
-        offset: state.offset,
-        postalCode: state.postalCode
+        pet: pets.currentPet,
+        isFetching: pets.isFetching,
+        offset: pets.offset,
+        postalCode: profile.postalCode
     };
 }
 

@@ -3,7 +3,7 @@ export enum RootRoute {
     Main
 }
 
-export enum MainRoute {
+export enum HomeRoute {
     Swiper,
     Details
 }
