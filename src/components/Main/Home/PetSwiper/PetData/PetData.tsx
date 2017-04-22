@@ -19,11 +19,11 @@ export default function PetData(props: IPetDataProps) {
     }
 
     return (
-        <TouchableHighlight style={styles.shadowBox} onPress={props.onPress}>
-            <View style={styles.container}>
+        <View style={styles.container}>
+            <TouchableHighlight style={styles.shadowBox} onPress={props.onPress}>
                 <Image style={styles.portrait} source={{ uri: props.pet.imageUrls[0] }} />
-                <Text style={styles.name}>{props.pet.name}</Text>
-            </View>
-        </TouchableHighlight>
+            </TouchableHighlight>
+            <Text style={styles.name}>{props.pet.name}</Text>
+        </View>
     );
 }

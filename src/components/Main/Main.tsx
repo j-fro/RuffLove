@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { TabNavigator } from 'react-navigation';
 import { connect } from 'react-redux';
 import { IAppState } from '../../state/state';
-import { RootRoute } from '../../config/routes';
+import { rootRoutes } from '../../config/routes';
 import { fetchPets, advancePet } from '../../state/actions';
 import { Login } from '../Login';
 import Home from './Home/Home';
@@ -24,10 +24,10 @@ class Main extends Component<IMainProps, IMainState> {
     render() {
         const Nav = TabNavigator(
             {
-                [RootRoute[RootRoute.Main]]: { screen: Home },
-                [RootRoute[RootRoute.Profile]]: { screen: Profile }
+                [rootRoutes.main]: { screen: Home },
+                [rootRoutes.profile]: { screen: Profile }
             },
-            { initialRouteName: 'Profile' }
+            { initialRouteName: rootRoutes.main, swipeEnabled: false }
         );
 
         return this.props.authenticated

@@ -1,9 +1,9 @@
-export enum RootRoute {
-    Profile,
-    Main
+export const rootRoutes = {
+    profile: 'profile',
+    main: 'main'
 }
 
-export enum HomeRoute {
-    Swiper,
-    Details
+export const homeRoutes = {
+    swiper: 'swiper',
+    details: 'details'
 }

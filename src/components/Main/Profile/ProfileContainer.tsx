@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { ViewStatic, TextInputStatic } from 'react-native';
 import { connect } from 'react-redux';
 import { IAppState } from '../../../state/state';
 import { ActionType } from '../../../state/actionsTypes';
@@ -12,16 +11,6 @@ interface IProfileContainerProps {
 }
 
 class ProfileContainer extends Component<IProfileContainerProps, {}> {
-
-    postal?: ViewStatic & TextInputStatic;
-
-    componentDidMount() {
-        this.postal.setNativeProps({ text: this.props.postalCode });
-    }
-
-    postalRef(component: ViewStatic & TextInputStatic) {
-        this.postal = component;
-    }
 
     handleChangePostalCode(postalCode: string) {
         this.props.dispatch({ type: ActionType.change_postal_code, postalCode });
@@ -36,7 +25,7 @@ class ProfileContainer extends Component<IProfileContainerProps, {}> {
             <Profile
                 onChangePostalCode={this.handleChangePostalCode.bind(this)}
                 onChangePetType={this.handleChangePetType}
-                postalRef={this.postalRef.bind(this)}
+                postalCode={this.props.postalCode}
                 petType={this.props.petType}
             />
         );
@@ -44,6 +33,6 @@ class ProfileContainer extends Component<IProfileContainerProps, {}> {
 }
 
 const mapStateToProps = ({ profile }: IAppState) =>
-    ({ postalCode: profile.postalCode, petType: profile.petType })
+    ({ postalCode: profile.postalCode, petType: profile.petType });
 
 export default connect(mapStateToProps)(ProfileContainer);

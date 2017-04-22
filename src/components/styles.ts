@@ -11,7 +11,8 @@ export default StyleSheet.create<IStyle>({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        padding: 10,
+        paddingTop: 10,
+        paddingBottom: 10,
         backgroundColor: primaryColor
     },
     button: {

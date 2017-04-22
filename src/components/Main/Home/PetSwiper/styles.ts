@@ -3,12 +3,17 @@ import { textColor } from '../../../../config/colors';
 import parentStyles from '../styles';
 
 interface IStyle {
+    animatedContainer: ViewStyle;
     name: TextStyle;
     icon: ViewStyle;
     buttonStack: ViewStyle;
 }
 
 const styles = StyleSheet.create<IStyle>({
+    animatedContainer: {
+        flex: 1,
+        alignSelf: 'stretch',
+    },
     name: {
         color: textColor,
         paddingTop: 15,

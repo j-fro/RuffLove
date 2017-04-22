@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StackNavigator } from 'react-navigation';
 import PetSwiper from './PetSwiper';
 import PetDetails from './PetDetails';
-import { HomeRoute } from '../../../config/routes';
+import { homeRoutes } from '../../../config/routes';
 
 interface IHomeProps { }
 
@@ -15,8 +15,8 @@ export default class Home extends Component<IHomeProps, IHomeState> {
 
     render() {
         const Nav = StackNavigator({
-            [HomeRoute[HomeRoute.Swiper]]: { screen: PetSwiper },
-            [HomeRoute[HomeRoute.Details]]: { screen: PetDetails }
+            [homeRoutes.swiper]: { screen: PetSwiper },
+            [homeRoutes.details]: { screen: PetDetails }
         });
 
         return <Nav />;

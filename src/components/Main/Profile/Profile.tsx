@@ -1,13 +1,10 @@
-import React, { Component, ComponentState } from 'react';
-import { View, ViewStatic, TextInputStatic, TextInputProperties, Switch } from 'react-native';
+import React from 'react';
+import { View, Switch } from 'react-native';
 import { TextInput } from '../../common';
 import styles from './styles';
 
 interface IProfileProps {
-    postalRef: (
-        ((instance: Component<TextInputProperties, ComponentState>) => any)
-        & ((instance: ViewStatic & TextInputStatic) => any)
-    );
+    postalCode: string;
     onChangePostalCode: (text: string) => void;
     onChangePetType: () => void;
     petType: 'dog' | 'cat';
@@ -19,7 +16,7 @@ function Profile(props: IProfileProps) {
             <TextInput
                 placeholder='Postal Code'
                 onChangeText={props.onChangePostalCode}
-                getRef={props.postalRef}
+                value={props.postalCode}
             />
             <Switch onValueChange={props.onChangePetType} value={props.petType === 'dog'} />
         </View>
