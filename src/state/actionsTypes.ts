@@ -33,6 +33,11 @@ export interface AuthAction {
     error?: any;
 }
 
+export interface FavoritesAction {
+    type: ActionType;
+    favorites?: Pet[];
+}
+
 export enum ActionType {
     like_pet,
     skip_pet,
@@ -56,5 +61,7 @@ export enum ActionType {
     login_error,
     switch_pet_type,
     init_db,
+    load_favorites_start,
+    load_favorites_success,
 };
 

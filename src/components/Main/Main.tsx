@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Database } from '../../state/database';
 import { IAppState } from '../../state/state';
 import { rootRoutes } from '../../config/routes';
-import { fetchPets, advancePet, listenForAuth, listenerPostalCode } from '../../state/actions';
+import { fetchPets, advancePet, listenForAuth, listenerPostalCode, listenFavorites } from '../../state/actions';
 import { ActionType } from '../../state/actionsTypes';
 import { Login } from '../Login';
 import Home from './Home/Home';
@@ -35,6 +35,7 @@ class Main extends Component<IMainProps, IMainState> {
         console.log(props);
         const { dispatch, userID } = props;
         dispatch(listenerPostalCode(userID));
+        dispatch(listenFavorites(userID));
     }
 
     render() {

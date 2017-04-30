@@ -5,6 +5,7 @@ export interface IAppState {
     auth: IAuthState;
     profile: IProfileState;
     pets: IPetState;
+    favorites: IFavoritesState;
     db: Database;
 }
 
@@ -27,4 +28,9 @@ export interface IAuthState {
     password: string;
     authenticated: boolean;
     userID: string;
+}
+
+export interface IFavoritesState {
+    isFetching: boolean;
+    favorites: Pet[];
 }
