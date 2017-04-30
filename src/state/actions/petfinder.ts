@@ -47,16 +47,17 @@ export function fetchPets() {
                 .then((res: any) => {
                     offset = Number(res.petfinder.lastOffset.$t);
                     return res.petfinder.pets.pet
-                        .map((pet: any) => ({
-                            age: pet.age.$t,
-                            name: pet.name.$t,
-                            size: pet.size.$t,
-                            description: pet.description.$t,
-                            sex: pet.sex.$t,
-                            imageUrls: pet.media.photos.photo
+                        .map((pet: any) => new Pet(
+                            pet.id.$t,
+                            pet.name.$t,
+                            pet.age.$t,
+                            pet.size.$t,
+                            pet.description.$t,
+                            pet.sex.$t,
+                            pet.media.photos.photo
                                 .filter((photo: any) => photo['@size'] === 'x')
                                 .map((photo: any) => photo.$t)
-                        }));
+                        ));
                 })
                 .then(pets => dispatch(receivePets(offset, pets)))
                 .catch(error => dispatch(errorPets(error, 10)));

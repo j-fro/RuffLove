@@ -8,11 +8,14 @@ import {
     LayoutRectangle
 } from 'react-native';
 import { connect } from 'react-redux';
+import { Pet } from '../../../../state/Pet';
 import { IAppState } from '../../../../state/state';
+import { Database } from '../../../../state/database';
 import { fetchPets } from '../../../../state/actions';
+import { addNewFavorite } from '../../../../state/actions';
 import { ActionType } from '../../../../state/actionsTypes';
 import { homeRoutes } from '../../../../config/routes';
-import { Pet } from '../../../../state/Pet';
+
 import PetSwiper from './PetSwiper';
 
 enum DropSide {
@@ -22,6 +25,8 @@ enum DropSide {
 }
 
 interface IPetSwiperContainerProps {
+    db: Database;
+    userID: string;
     pet: Pet;
     isFetching: boolean;
     dispatch: Function;
@@ -58,8 +63,10 @@ class PetSwiperContainer extends Component<IPetSwiperContainerProps, IPetSwiperC
                 dy: this.state.pan.y
             }]),
             onPanResponderRelease: (_, gesture) => {
-                if (this.isDropZone(gesture) !== DropSide.None) {
-                    this.handleNextPress();
+                if (this.isDropZone(gesture) === DropSide.Right) {
+                    this.handleLikePress();
+                } else if (this.isDropZone(gesture) === DropSide.Left) {
+                    this.handleDislikePress();
                 }
                 Animated.spring(this.state.pan, { toValue: { x: 0, y: 0 } }).start();
             }
@@ -84,9 +91,20 @@ class PetSwiperContainer extends Component<IPetSwiperContainerProps, IPetSwiperC
         return DropSide.None;
     }
 
-    handleNextPress() {
-        this.props.dispatch({ type: ActionType.advance_pet });
-        this.props.dispatch(fetchPets());
+    handleLikePress = () => {
+        const { pet, userID } = this.props;
+        addNewFavorite(userID, pet.petfinderID);
+        this.advancePet();
+    }
+
+    handleDislikePress = () => {
+        this.advancePet();
+    }
+
+    advancePet = () => {
+        const { dispatch } = this.props;
+        dispatch({ type: ActionType.advance_pet });
+        dispatch(fetchPets());
     }
 
     handleDetailsPress() {
@@ -101,7 +119,8 @@ class PetSwiperContainer extends Component<IPetSwiperContainerProps, IPetSwiperC
                 panLayout={this.state.pan.getLayout()}
                 setLeftDropZoneValues={this.setLeftDropZoneValues}
                 setRightDropZoneValues={this.setRightDropZoneValues}
-                onNextPress={this.handleNextPress.bind(this)}
+                onLikePress={this.handleLikePress}
+                onDislikePress={this.handleDislikePress}
                 onDetailsPress={this.handleDetailsPress.bind(this)}
                 {...this.props}
             />
@@ -109,12 +128,14 @@ class PetSwiperContainer extends Component<IPetSwiperContainerProps, IPetSwiperC
     }
 }
 
-function mapStateToProps({ pets, profile }: IAppState) {
+function mapStateToProps({ pets, profile, auth, db }: IAppState) {
     return {
+        db: db,
+        userID: auth.userID,
         pet: pets.currentPet,
         isFetching: pets.isFetching,
         offset: pets.offset,
-        postalCode: profile.postalCode
+        postalCode: profile.postalCode,
     };
 }
 

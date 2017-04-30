@@ -30,7 +30,7 @@ export function listenForAuth() {
         dispatch({ type: ActionType.auth_listen_start });
         firebase.auth().onAuthStateChanged((user: User) => {
             if (user) {
-                dispatch({ type: ActionType.auth_listen_authenticated, user });
+                dispatch({ type: ActionType.auth_listen_authenticated, userID: user.uid });
             }
         });
     };

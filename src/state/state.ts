@@ -1,9 +1,11 @@
 import { Pet } from './Pet';
+import { Database } from './database';
 
 export interface IAppState {
     auth: IAuthState;
     profile: IProfileState;
     pets: IPetState;
+    db: Database;
 }
 
 export interface IPetState {
@@ -24,4 +26,5 @@ export interface IAuthState {
     email: string;
     password: string;
     authenticated: boolean;
+    userID: string;
 }

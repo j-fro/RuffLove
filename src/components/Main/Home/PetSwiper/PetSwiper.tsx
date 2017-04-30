@@ -9,7 +9,8 @@ import styles from './styles';
 interface IPetSwiperProps {
     pet: Pet;
     isFetching: boolean;
-    onNextPress: () => void;
+    onLikePress: () => void;
+    onDislikePress: () => void;
     onDetailsPress: () => void;
     panHandlers: GestureResponderHandlers;
     panLayout: { [key: string]: Animated.Animated };
@@ -31,8 +32,8 @@ export default function PetSwiper(props: IPetSwiperProps) {
                 <View onLayout={props.setRightDropZoneValues} style={{ width: 30 }} />
             </View>
             <View style={styles.buttonStack}>
-                <DeclineButton onPress={props.onNextPress} />
-                <AcceptButton onPress={props.onNextPress} />
+                <DeclineButton onPress={props.onDislikePress} />
+                <AcceptButton onPress={props.onLikePress} />
             </View>
         </View>
     );

@@ -26,7 +26,7 @@ export const petsReducer = (state = initialState, action: PetAction) => {
                 error: null,
             };
         case ActionType.request_pets_failure:
-            return { ...state, error: action.error, isFetching: false };
+            return { ...state, error: action.error, isFetching: false, offset: state.offset + 10 };
         default:
             return state;
     }

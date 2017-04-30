@@ -8,7 +8,7 @@ export interface Action {
     error?: Error;
     count?: number;
     postalCode?: string;
-    user?: any;
+    userID?: string;
 }
 
 export interface ProfileAction {
@@ -29,7 +29,7 @@ export interface AuthAction {
     type: ActionType;
     email?: string;
     password?: string;
-    user?: any;
+    userID?: string;
     error?: any;
 }
 
@@ -55,5 +55,6 @@ export enum ActionType {
     login_success,
     login_error,
     switch_pet_type,
+    init_db,
 };
 

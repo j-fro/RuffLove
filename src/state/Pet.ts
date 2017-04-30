@@ -1,8 +1,11 @@
 export class Pet {
-    name = '';
-    age = '';
-    size = '';
-    description = '';
-    sex = '';
-    imageUrls = new Array<string>();
+    constructor(
+        public petfinderID: number,
+        public name = '',
+        public age = '',
+        public size = '',
+        public description = '',
+        public sex = '',
+        public imageUrls = new Array<string>()
+    ) { }
 }

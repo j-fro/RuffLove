@@ -6,7 +6,7 @@ export const profileReducer = (
     action: ProfileAction) => {
     switch (action.type) {
         case ActionType.change_postal_code:
-            return { ...state, postalCode: action.postalCode };
+            return { ...state, postalCode: String(action.postalCode) };
         case ActionType.switch_pet_type:
             return { ...state, petType: state.petType === 'dog' ? 'cat' : 'dog' }
         default:
