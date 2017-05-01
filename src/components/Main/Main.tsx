@@ -5,9 +5,9 @@ import { Database } from '../../state/database';
 import { IAppState } from '../../state/state';
 import { rootRoutes } from '../../config/routes';
 import { fetchPets, advancePet, listenForAuth, listenerPostalCode, listenFavorites } from '../../state/actions';
-import { ActionType } from '../../state/actionsTypes';
 import { Login } from '../Login';
-import Home from './Home/Home';
+import Home from './Home';
+import Favorites from './Favorites';
 import Profile from './Profile';
 
 interface IMainProps {
@@ -42,7 +42,8 @@ class Main extends Component<IMainProps, IMainState> {
         const Nav = TabNavigator(
             {
                 [rootRoutes.main]: { screen: Home },
-                [rootRoutes.profile]: { screen: Profile }
+                [rootRoutes.favorites]: { screen: Favorites },
+                [rootRoutes.profile]: { screen: Profile },
             },
             { initialRouteName: rootRoutes.main, swipeEnabled: false }
         );

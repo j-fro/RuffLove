@@ -1,15 +1,8 @@
-import React, { Component, ComponentState } from 'react';
-import { View, TextInput, TextInputProperties, ViewStatic, TextInputStatic } from 'react-native';
+import React from 'react';
+import { View, TextInput, TextInputProperties } from 'react-native';
 import { secondaryBackground } from '../../config/colors';
 
-export interface ICommonTextInputProps extends TextInputProperties {
-    getRef?: (
-        ((instance: Component<TextInputProperties, ComponentState>) => any)
-        & ((instance: ViewStatic & TextInputStatic) => any)
-    );
-}
-
-function CommonTextInput(props: ICommonTextInputProps) {
+function CommonTextInput({ ref, ...props }: TextInputProperties) {
     return (
         <View style={{
             flexDirection: 'row',
@@ -24,7 +17,6 @@ function CommonTextInput(props: ICommonTextInputProps) {
             }
         }}>
             <TextInput
-                ref={props.getRef}
                 {...props}
                 style={{ flex: 1, margin: 10, lineHeight: 24, height: 24 }}
             />

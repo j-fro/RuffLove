@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Image, Text, ActivityIndicator, TouchableHighlight } from 'react-native';
+import { View, Text, ActivityIndicator } from 'react-native';
 import { Pet } from '../../../../../state/Pet';
+import { PortraitButton } from '../../../../common';
 import styles from './styles';
 
 interface IPetDataProps {
@@ -20,9 +21,7 @@ export default function PetData(props: IPetDataProps) {
 
     return (
         <View style={styles.container}>
-            <TouchableHighlight style={styles.shadowBox} onPress={props.onPress}>
-                <Image style={styles.portrait} source={{ uri: props.pet.imageUrls[0] }} />
-            </TouchableHighlight>
+            <PortraitButton source={{ uri: props.pet.imageUrls[0] }} onPress={props.onPress} />
             <Text style={styles.name}>{props.pet.name}</Text>
         </View>
     );

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TouchableHighlight, Text } from 'react-native';
+import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
 import { EmailInput, PasswordInput, Button } from '../common';
 import { ActionType } from '../../state/actionsTypes';
@@ -14,8 +14,6 @@ interface ILoginProps {
 }
 
 function Login({ dispatch, email, password }: ILoginProps) {
-
-
     return (
         <View style={styles.container}>
             <EmailInput
@@ -25,9 +23,9 @@ function Login({ dispatch, email, password }: ILoginProps) {
                 onChangeText={password => dispatch({ type: ActionType.change_password, password })}
             />
             <Button><Text>Login</Text></Button>
-            <TouchableHighlight onPress={() => dispatch(register(email, password))}>
-                <Text>Login</Text>
-            </TouchableHighlight>
+            <Button onPress={() => dispatch(register(email, password))}>
+                <Text>Register</Text>
+            </Button>
         </View>
     );
 }

@@ -1,7 +1,8 @@
 import React from 'react';
-import TextInput, { ICommonTextInputProps } from './TextInput';
+import { TextInputProperties } from 'react-native';
+import TextInput from './TextInput';
 
-function EmailInput(props: ICommonTextInputProps) {
+function EmailInput(props: TextInputProperties) {
     return <TextInput
         placeholder='Email Address'
         keyboardType='email-address'

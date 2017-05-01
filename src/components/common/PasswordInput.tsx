@@ -1,7 +1,8 @@
 import React from 'react';
-import TextInput, { ICommonTextInputProps } from './TextInput';
+import { TextInputProperties } from 'react-native';
+import TextInput from './TextInput';
 
-function PasswordInput(props: ICommonTextInputProps) {
+function PasswordInput(props: TextInputProperties) {
     return <TextInput
         placeholder='Password'
         secureTextEntry

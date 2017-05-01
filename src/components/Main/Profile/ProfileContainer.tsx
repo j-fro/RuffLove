@@ -11,8 +11,7 @@ interface IProfileContainerProps {
 }
 
 class ProfileContainer extends Component<IProfileContainerProps, {}> {
-
-    handleChangePostalCode(postalCode: string) {
+    handleChangePostalCode = (postalCode: string) => {
         this.props.dispatch({ type: ActionType.change_postal_code, postalCode });
     }
 
@@ -23,7 +22,7 @@ class ProfileContainer extends Component<IProfileContainerProps, {}> {
     render() {
         return (
             <Profile
-                onChangePostalCode={this.handleChangePostalCode.bind(this)}
+                onChangePostalCode={this.handleChangePostalCode}
                 onChangePetType={this.handleChangePetType}
                 postalCode={this.props.postalCode}
                 petType={this.props.petType}

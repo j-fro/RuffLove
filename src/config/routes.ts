@@ -1,6 +1,7 @@
 export const rootRoutes = {
-    profile: 'profile',
-    main: 'main'
+    profile: 'Profile',
+    main: 'Main',
+    favorites: 'Favorites'
 }
 
 export const homeRoutes = {
