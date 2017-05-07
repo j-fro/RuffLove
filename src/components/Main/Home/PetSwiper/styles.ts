@@ -11,6 +11,7 @@ interface IStyle {
 
 const styles = StyleSheet.create<IStyle>({
     animatedContainer: {
+        margin: 10,
         flex: 1,
         alignSelf: 'stretch',
     },

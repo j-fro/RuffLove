@@ -5,7 +5,8 @@ import {
     PanResponderInstance,
     PanResponderGestureState,
     LayoutChangeEvent,
-    LayoutRectangle
+    LayoutRectangle,
+    Dimensions
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Pet } from '../../../../state/Pet';
@@ -15,8 +16,11 @@ import { fetchPets } from '../../../../state/actions';
 import { addNewFavorite } from '../../../../state/actions';
 import { ActionType } from '../../../../state/actionsTypes';
 import { homeRoutes } from '../../../../config/routes';
-
 import PetSwiper from './PetSwiper';
+
+const { width } = Dimensions.get('window');
+
+const DROP_ZONE_WIDTH_PERCENT = 0.25;
 
 enum DropSide {
     Left,
@@ -51,8 +55,18 @@ class PetSwiperContainer extends Component<IPetSwiperContainerProps, IPetSwiperC
 
         this.state = {
             pan: new Animated.ValueXY(),
-            leftDropZoneValues: null,
-            rightDropZoneValues: null
+            leftDropZoneValues: {
+                x: 0,
+                y: 0,
+                width: width * DROP_ZONE_WIDTH_PERCENT,
+                height: 0
+            },
+            rightDropZoneValues: {
+                x: width - (width * DROP_ZONE_WIDTH_PERCENT),
+                y: 0,
+                width: width * DROP_ZONE_WIDTH_PERCENT,
+                height: 0
+            }
         };
 
         this.panResponder = PanResponder.create({
@@ -117,8 +131,6 @@ class PetSwiperContainer extends Component<IPetSwiperContainerProps, IPetSwiperC
             <PetSwiper
                 panHandlers={this.panResponder.panHandlers}
                 panLayout={this.state.pan.getLayout()}
-                setLeftDropZoneValues={this.setLeftDropZoneValues}
-                setRightDropZoneValues={this.setRightDropZoneValues}
                 onLikePress={this.handleLikePress}
                 onDislikePress={this.handleDislikePress}
                 onDetailsPress={this.handleDetailsPress.bind(this)}

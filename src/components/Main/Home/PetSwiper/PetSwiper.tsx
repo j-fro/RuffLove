@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Image, Animated, GestureResponderHandlers, LayoutChangeEvent } from 'react-native';
+import { View, Image, Animated, GestureResponderHandlers } from 'react-native';
 import PetData from './PetData';
 import { Pet } from '../../../../state/Pet';
 import { Button } from '../../../common/';
@@ -14,22 +14,18 @@ interface IPetSwiperProps {
     onDetailsPress: () => void;
     panHandlers: GestureResponderHandlers;
     panLayout: { [key: string]: Animated.Animated };
-    setLeftDropZoneValues: (_: LayoutChangeEvent) => void;
-    setRightDropZoneValues: (_: LayoutChangeEvent) => void;
 }
 
 export default function PetSwiper(props: IPetSwiperProps) {
     return (
         <View style={styles.container}>
             <View style={{ flexDirection: 'row', flex: 1 }}>
-                <View onLayout={props.setLeftDropZoneValues} style={{ width: 30 }} />
                 <Animated.View
                     {...props.panHandlers}
                     style={[styles.animatedContainer, props.panLayout]}
                 >
                     <PetData onPress={props.onDetailsPress} {...props} />
                 </Animated.View>
-                <View onLayout={props.setRightDropZoneValues} style={{ width: 30 }} />
             </View>
             <View style={styles.buttonStack}>
                 <DeclineButton onPress={props.onDislikePress} />
