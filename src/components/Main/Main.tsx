@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TabNavigator } from 'react-navigation';
+import { TabNavigator, NavigationProp, NavigationRoute, NavigationAction } from 'react-navigation';
 import { connect } from 'react-redux';
 import { Database } from '../../state/database';
 import { IAppState } from '../../state/state';
@@ -14,6 +14,7 @@ interface IMainProps {
     authenticated: boolean;
     userID: string;
     dispatch: Function;
+    navigation: NavigationProp<NavigationRoute<{}>, NavigationAction>;
 }
 
 interface IMainState { }
@@ -49,8 +50,8 @@ class Main extends Component<IMainProps, IMainState> {
         );
 
         return this.props.authenticated
-            ? <Nav {...this.props} />
-            : <Login {...this.props} />;
+            ? <Nav navigation={this.props.navigation} />
+            : <Login />;
     }
 
 }

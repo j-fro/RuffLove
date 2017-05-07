@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { StackNavigator } from 'react-navigation';
+import { StackNavigator, NavigationAction, NavigationRoute, NavigationProp } from 'react-navigation';
 import PetSwiper from './PetSwiper';
 import PetDetails from './PetDetails';
 import { homeRoutes } from '../../../config/routes';
 
-interface IHomeProps { }
+interface IHomeProps {
+    navigation: NavigationProp<NavigationRoute<{}>, NavigationAction>;
+}
 
 interface IHomeState { }
 
@@ -19,6 +21,6 @@ export default class Home extends Component<IHomeProps, IHomeState> {
             [homeRoutes.details]: { screen: PetDetails }
         });
 
-        return <Nav />;
+        return <Nav navigation={this.props.navigation} />;
     }
 }

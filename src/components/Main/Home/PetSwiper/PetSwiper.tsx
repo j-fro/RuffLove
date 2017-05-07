@@ -24,7 +24,11 @@ export default function PetSwiper(props: IPetSwiperProps) {
                     {...props.panHandlers}
                     style={[styles.animatedContainer, props.panLayout]}
                 >
-                    <PetData onPress={props.onDetailsPress} {...props} />
+                    <PetData
+                        onPress={props.onDetailsPress}
+                        isFetching={props.isFetching}
+                        pet={props.pet}
+                    />
                 </Animated.View>
             </View>
             <View style={styles.buttonStack}>

@@ -11,6 +11,7 @@
     "@types/react": "^15.0.20",
     "@types/react-native": "^0.42.12",
     "@types/react-native-swiper": "^1.5.5",
+    "@types/react-navigation": "^1.0.0",
     "@types/react-redux": "^4.4.38",
     "@types/redux-logger": "^2.10.0",
     "firebase": "^3.7.5",
@@ -27,7 +28,10 @@
     "babel-jest": "19.0.0",
     "babel-preset-react-native": "1.9.1",
     "jest": "19.0.2",
-    "react-test-renderer": "15.4.2"
+    "react-test-renderer": "15.4.2",
+    "tslint": "^5.2.0",
+    "tslint-eslint-rules": "^4.0.0",
+    "typescript": "^2.3.2"
   },
   "jest": {
     "preset": "react-native"
