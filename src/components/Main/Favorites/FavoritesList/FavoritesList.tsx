@@ -1,11 +1,16 @@
 import React from 'react';
-import { ListView, ListViewProperties } from 'react-native';
-import styles from './styles';
+import { FlatList, FlatListProperties } from 'react-native';
+import { Pet } from '../../../../state/Pet';
 
-interface IFavoritesListProps extends ListViewProperties { }
+interface IFavoritesListProps extends FlatListProperties<Pet> { }
 
-const FavoritesList = ({ ref, ...props }: IFavoritesListProps) => (
-    <ListView {...props} contentContainerStyle={styles.contentContainer} enableEmptySections />
+const FavoritesList = (props: IFavoritesListProps) => (
+    <FlatList
+        data={props.data}
+        renderItem={props.renderItem}
+        numColumns={2}
+        keyExtractor={(item: Pet) => item.petfinderID}
+    />
 );
 
 export default FavoritesList;
