@@ -2,7 +2,7 @@ import React from 'react';
 import { View, TextInput, TextInputProperties } from 'react-native';
 import { secondaryBackground } from '../../config/colors';
 
-function CommonTextInput({ ref, ...props }: TextInputProperties) {
+function CommonTextInput(props: TextInputProperties) {
     return (
         <View style={{
             flexDirection: 'row',

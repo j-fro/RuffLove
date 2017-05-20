@@ -16,7 +16,7 @@ class PetDetailsContainer extends Component<IPetDetailsContainerProps, IPetDetai
     };
 
     render() {
-        return <PetDetails {...this.props} />;
+        return <PetDetails pet={this.props.pet} />;
     }
 }
 
