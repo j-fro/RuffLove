@@ -10,7 +10,7 @@ interface ICellProps {
 
 const Cell = ({ pet }: ICellProps) => (
     <View style={styles.cellContainer}>
-        <PortraitButton source={{ uri: pet.imageUrls[0] }} onPress={() => { }} />
+        <PortraitButton source={{ uri: pet.imageUrls[0] }} label={pet.name} onPress={() => { }} />
     </View>
 );
 

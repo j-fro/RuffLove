@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ActivityIndicator } from 'react-native';
+import { View, ActivityIndicator } from 'react-native';
 import { Pet } from '../../../../../state/Pet';
 import { PortraitButton } from '../../../../common';
 import styles from './styles';
@@ -20,9 +20,10 @@ export default function PetData(props: IPetDataProps) {
     }
 
     return (
-        <View style={styles.container}>
-            <PortraitButton source={{ uri: props.pet.imageUrls[0] }} onPress={props.onPress} />
-            <Text style={styles.name}>{props.pet.name}</Text>
-        </View>
+        <PortraitButton
+            source={{ uri: props.pet.imageUrls[0] }}
+            label={props.pet.name}
+            onPress={props.onPress}
+        />
     );
 }
