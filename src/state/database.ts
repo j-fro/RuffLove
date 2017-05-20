@@ -1,5 +1,5 @@
 import { database } from 'firebase';
-import { ActionType } from './actionsTypes';
+import { actionTypes } from './actionTypes';
 
 export class Database {
     _usersPath = '/Users/'
@@ -20,7 +20,7 @@ export class Database {
 
     postalCodeListener(dispatch: Function) {
         database().ref(`${this._usersPath}${this.userID}/postalCode`).on('value', snapshot => {
-            return dispatch({ type: ActionType.change_postal_code, postalCode: snapshot.val() })
+            return dispatch({ type: actionTypes.change_postal_code, postalCode: snapshot.val() })
         })
     }
 

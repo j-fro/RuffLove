@@ -1,26 +1,32 @@
 import firebase from 'firebase';
 import { Pet } from '../Pet';
-import { ActionType, FavoritesAction } from '../actionsTypes';
+import { ActionType, actionTypes, FavoritesAction } from '../actionTypes';
 import config from '../../config/keys';
 
 const USER_PATH = '/Users/';
 const PET_NOT_FOUND = ['pet id', 'not found']
 
-export function addNewFavorite(userID: string, petfinderID: number) {
-    return firebase.database().ref(`/Users/${userID}/favorites/${petfinderID}`).set(new Date().toISOString())
+export function addNewFavorite(userID: string, petfinderID: string) {
+    return firebase
+        .database()
+        .ref(`/Users/${userID}/favorites/${petfinderID}`)
+        .set(new Date().toISOString())
 }
 
 export function listenFavorites(userID: string) {
     return (dispatch: (action: FavoritesAction) => void) => {
-        dispatch({ type: ActionType.load_favorites_start });
+        dispatch({ type: actionTypes.load_favorites_start as ActionType });
         firebase.database().ref(`${USER_PATH}${userID}/favorites`).on('value', snapshot => {
-            const favorites = snapshot.val();
+            const favorites = snapshot.val() || {};
             Promise.all(
                 Object.keys(favorites)
                     .map(key => fetchFavoritePet(key))
             )
-                .then(favorites => favorites.filter(favorite => favorite.petfinderID > 0))
-                .then(favorites => dispatch({ type: ActionType.load_favorites_success, favorites }))
+                .then(favorites => favorites.filter(favorite => favorite.petfinderID.length > 0))
+                .then(favorites => dispatch({
+                    type: actionTypes.load_favorites_success as ActionType,
+                    favorites
+                }))
         })
     };
 }
@@ -37,7 +43,7 @@ function fetchFavoritePet(petfinderID: string) {
         .then((res: any) => {
             const error = checkErrorMessage(petfinderID, res.petfinder.header.status.message.$t)
             if (error) {
-                return new Pet(0);
+                return new Pet('');
             }
             const { pet } = res.petfinder;
             return new Pet(

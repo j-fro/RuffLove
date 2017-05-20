@@ -14,7 +14,7 @@ import { IAppState } from '../../../../state/state';
 import { Database } from '../../../../state/database';
 import { fetchPets } from '../../../../state/actions';
 import { addNewFavorite } from '../../../../state/actions';
-import { ActionType } from '../../../../state/actionsTypes';
+import { actionTypes } from '../../../../state/actionTypes';
 import { homeRoutes } from '../../../../config/routes';
 import PetSwiper from './PetSwiper';
 
@@ -117,7 +117,7 @@ class PetSwiperContainer extends Component<IPetSwiperContainerProps, IPetSwiperC
 
     advancePet = () => {
         const { dispatch } = this.props;
-        dispatch({ type: ActionType.advance_pet });
+        dispatch({ type: actionTypes.advance_pet });
         dispatch(fetchPets());
     }
 
@@ -134,7 +134,8 @@ class PetSwiperContainer extends Component<IPetSwiperContainerProps, IPetSwiperC
                 onLikePress={this.handleLikePress}
                 onDislikePress={this.handleDislikePress}
                 onDetailsPress={this.handleDetailsPress.bind(this)}
-                {...this.props}
+                pet={this.props.pet}
+                isFetching={this.props.isFetching}
             />
         );
     }

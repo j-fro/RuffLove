@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { IAppState } from '../../../state/state';
-import { ActionType } from '../../../state/actionsTypes';
+import { actionTypes } from '../../../state/actionTypes';
 import Profile from './Profile';
 
 interface IProfileContainerProps {
@@ -12,11 +12,11 @@ interface IProfileContainerProps {
 
 class ProfileContainer extends Component<IProfileContainerProps, {}> {
     handleChangePostalCode = (postalCode: string) => {
-        this.props.dispatch({ type: ActionType.change_postal_code, postalCode });
+        this.props.dispatch({ type: actionTypes.change_postal_code, postalCode });
     }
 
     handleChangePetType = () => {
-        this.props.dispatch({ type: ActionType.switch_pet_type });
+        this.props.dispatch({ type: actionTypes.switch_pet_type });
     }
 
     render() {

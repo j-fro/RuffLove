@@ -1,18 +1,18 @@
 import { Pet } from '../Pet';
-import { PetAction, ActionType } from '../actionsTypes';
+import { PetAction, actionTypes } from '../actionTypes';
 import { IAppState } from '../state';
 import config from '../../config/keys';
 
 function requestPets(offset: number) {
-    return { type: ActionType.request_pets_start, offset };
+    return { type: actionTypes.request_pets_start, offset } as PetAction;
 };
 
 function receivePets(offset: number, pets: Pet[]) {
-    return { type: ActionType.request_pets_success, offset, pets };
+    return { type: actionTypes.request_pets_success, offset, pets } as PetAction;
 }
 
 function errorPets(error: Error, count: number) {
-    return { type: ActionType.request_pets_failure, error, count };
+    return { type: actionTypes.request_pets_failure, error, count } as PetAction;
 }
 
 function petQuery(count: number, postalCode: string, offset: number, type: 'dog' | 'cat') {
@@ -29,7 +29,7 @@ function petQuery(count: number, postalCode: string, offset: number, type: 'dog'
 
 export function advancePet() {
     return (dispatch: (action: PetAction) => void) => {
-        dispatch({ type: ActionType.advance_pet });
+        dispatch({ type: actionTypes.advance_pet } as PetAction);
     }
 }
 
