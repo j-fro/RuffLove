@@ -5,6 +5,7 @@ export const rootRoutes = {
 }
 
 export const homeRoutes = {
-    swiper: 'swiper',
-    details: 'details'
+    swiper: 'Swiper',
+    details: 'Details',
+    favorites: 'Favorites'
 }
