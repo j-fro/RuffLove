@@ -1,6 +1,6 @@
 export class Pet {
     constructor(
-        public petfinderID: number,
+        public petfinderID: string,
         public name = '',
         public age = '',
         public size = '',
