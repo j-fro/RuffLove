@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
-import { StackNavigator, NavigationAction, NavigationRoute, NavigationProp } from 'react-navigation';
+import {
+    StackNavigator,
+    NavigationAction,
+    NavigationRoute,
+    NavigationProp
+} from 'react-navigation';
 import PetSwiper from './PetSwiper';
 import PetDetails from './PetDetails';
 import { homeRoutes } from '../../../config/routes';
@@ -21,6 +26,6 @@ export default class Home extends Component<IHomeProps, IHomeState> {
             [homeRoutes.details]: { screen: PetDetails }
         });
 
-        return <Nav navigation={this.props.navigation} />;
+        return <Nav />;
     }
 }

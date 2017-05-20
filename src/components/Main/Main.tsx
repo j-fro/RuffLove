@@ -4,7 +4,13 @@ import { connect } from 'react-redux';
 import { Database } from '../../state/database';
 import { IAppState } from '../../state/state';
 import { rootRoutes } from '../../config/routes';
-import { fetchPets, advancePet, listenForAuth, listenerPostalCode, listenFavorites } from '../../state/actions';
+import {
+    fetchPets,
+    advancePet,
+    listenForAuth,
+    listenerPostalCode,
+    listenFavorites
+} from '../../state/actions';
 import { Login } from '../Login';
 import Home from './Home';
 import Favorites from './Favorites';
@@ -50,10 +56,14 @@ class Main extends Component<IMainProps, IMainState> {
         );
 
         return this.props.authenticated
-            ? <Nav navigation={this.props.navigation} />
+            ? <Nav />
             : <Login />;
     }
 
 }
 
-export default connect(({ auth }: IAppState) => ({ authenticated: auth.authenticated, userID: auth.userID }))(Main);
+function mapStateToProps({ auth }: IAppState) {
+    return ({ authenticated: auth.authenticated, userID: auth.userID })
+}
+
+export default connect(mapStateToProps)(Main);

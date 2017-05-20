@@ -53,4 +53,5 @@ const IconButton = (props: IIconButtonProps) => (
 const AcceptButton =
     (props: { onPress: () => void }) => <IconButton source={acceptIcon} {...props} />;
 
-const DeclineButton = (props: { onPress: () => void }) => <IconButton source={declineIcon} {...props} />;
+const DeclineButton =
+    (props: { onPress: () => void }) => <IconButton source={declineIcon} {...props} />;
