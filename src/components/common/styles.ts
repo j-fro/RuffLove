@@ -1,10 +1,12 @@
-import { StyleSheet, ViewStyle, ImageStyle } from 'react-native';
-import { secondaryBackground } from '../../config/colors';
+import { StyleSheet, ViewStyle, ImageStyle, TextStyle } from 'react-native';
+import { secondaryBackground, textColor } from '../../config/colors';
 import styles from '../styles';
 
 interface IStyle {
     portrait: ImageStyle;
     shadowBox: ViewStyle;
+    label: TextStyle;
+    portraitContainer: ViewStyle;
 }
 
 export default {
@@ -15,7 +17,7 @@ export default {
             flex: 1,
             alignItems: 'center',
             justifyContent: 'center',
-            borderRadius: 10,
+            borderRadius: 3,
             padding: 10,
             backgroundColor: secondaryBackground,
             shadowOpacity: 0.5,
@@ -25,10 +27,23 @@ export default {
             },
             elevation: 5
         },
+        label: {
+            color: textColor,
+            paddingTop: 15,
+            paddingBottom: 5,
+            alignSelf: 'stretch',
+            textAlign: 'center',
+            fontWeight: '600',
+            fontSize: 18
+        },
         portrait: {
             flex: 1,
             alignSelf: 'stretch',
-            borderRadius: 10,
+            borderRadius: 3,
         },
+        portraitContainer: {
+            flex: 1,
+            alignSelf: 'stretch'
+        }
     })
 };

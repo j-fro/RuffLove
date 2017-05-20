@@ -24,16 +24,32 @@ const styles = StyleSheet.create<IStyle>({
         padding: 0,
         backgroundColor: primaryColor
     },
-    wrapper: { height: width, backgroundColor: primaryColor, borderRadius: 40 },
+    wrapper: {
+        height: width,
+        backgroundColor: primaryColor,
+        borderRadius: 3,
+        shadowOpacity: 0.5,
+        shadowOffset: {
+            width: 5,
+            height: 5
+        },
+        elevation: 5
+    },
     scrollContainer: { flex: 1, padding: 10 },
     detailContainer: {
         backgroundColor: secondaryBackground,
         alignItems: 'center',
         flex: 1,
         marginTop: 10,
-        marginBottom: 10,
+        marginBottom: 30,
         padding: 10,
-        borderRadius: 40,
+        borderRadius: 3,
+        shadowOpacity: 0.5,
+        shadowOffset: {
+            width: 5,
+            height: 5
+        },
+        elevation: 5
     },
     name: { fontSize: 20, fontWeight: 'bold', marginBottom: 10, color: textColor },
     detail: { fontWeight: 'bold', marginBottom: 5, color: textColor },
