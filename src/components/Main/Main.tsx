@@ -26,8 +26,6 @@ interface IMainProps {
 interface IMainState { }
 
 class Main extends Component<IMainProps, IMainState> {
-    _db: Database;
-
     constructor(props: IMainProps, context: any) {
         super(props, context);
         props.dispatch(listenForAuth());

@@ -1,12 +1,10 @@
 import { Pet } from './Pet';
-import { Database } from './database';
 
 export interface IAppState {
     auth: IAuthState;
     profile: IProfileState;
     pets: IPetState;
     favorites: IFavoritesState;
-    db: Database;
 }
 
 export interface IPetState {
