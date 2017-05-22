@@ -21,7 +21,7 @@ export interface PetAction {
     offset?: number;
     pet?: Pet;
     pets?: Pet[];
-    error?: Error;
+    error?: string;
     count?: number;
 }
 
