@@ -11,6 +11,18 @@ export interface PetfinderGroupResult {
     }
 }
 
+export interface PetfinderSingleResult {
+    petfinder: {
+        pet?: PetfinderPetResult,
+        header: {
+            status: {
+                message: { $t: string },
+                code: { $t: string }
+            }
+        }
+    }
+}
+
 export interface PetfinderPetResult {
     options: { option: PetfinderGenericResult[] }
     status: { $t: string }
