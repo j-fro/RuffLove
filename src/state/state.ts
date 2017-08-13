@@ -17,6 +17,7 @@ export interface IPetState {
 }
 
 export interface IProfileState {
+    viewedPetIDs: string[];
     postalCode?: string;
     petType: 'cat' | 'dog';
 }
@@ -25,7 +26,7 @@ export interface IAuthState {
     email: string;
     password: string;
     authenticated: boolean;
-    userID: string;
+    userID: string | null;
 }
 
 export interface IFavoritesState {

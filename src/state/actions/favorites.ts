@@ -1,34 +1,50 @@
 import firebase from 'firebase';
 import { Pet } from '../Pet';
+import { PetfinderSingleResult } from '../PetfinderResult';
 import { ActionType, actionTypes, FavoritesAction } from '../actionTypes';
 import config from '../../config/keys';
 
 const USER_PATH = '/Users/';
-const PET_NOT_FOUND = ['pet id', 'not found']
+const FAVORITES_PATH = '/favorites/';
 
 export function addNewFavorite(userID: string, petfinderID: string) {
     return firebase
         .database()
-        .ref(`/Users/${userID}/favorites/${petfinderID}`)
-        .set(new Date().toISOString())
+        .ref(`${USER_PATH}${userID}${FAVORITES_PATH}${petfinderID}`)
+        .set(new Date().toISOString());
 }
 
-export function listenFavorites(userID: string) {
-    return (dispatch: (action: FavoritesAction) => void) => {
-        dispatch({ type: actionTypes.load_favorites_start as ActionType });
-        firebase.database().ref(`${USER_PATH}${userID}/favorites`).on('value', snapshot => {
-            const favorites = snapshot.val() || {};
-            Promise.all(
-                Object.keys(favorites)
-                    .map(key => fetchFavoritePet(key))
-            )
-                .then(favorites => favorites.filter(favorite => favorite.petfinderID.length > 0))
-                .then(favorites => dispatch({
-                    type: actionTypes.load_favorites_success as ActionType,
-                    favorites
-                }))
-        })
-    };
+export function removeFavorite(userID: string, petfinderID: string) {
+    return firebase.database().ref(`${USER_PATH}${userID}${FAVORITES_PATH}${petfinderID}`).remove();
+}
+
+function getFavoritesFromSnapshot(snapshot: firebase.database.DataSnapshot | null) {
+    if (snapshot) {
+        return Promise.all(
+            Object.keys(snapshot.val() || {})
+                .map(key => fetchFavoritePet(key))
+        );
+    } else {
+        return Promise.reject('');
+    }
+}
+
+function filterValidFavorites(favorites: Pet[]) {
+    return favorites.filter(pet => pet.petfinderID.length > 0);
+}
+
+function listenFavoritePets(dispatch: (action: FavoritesAction) => void, userID: string) {
+    firebase
+        .database()
+        .ref(`${USER_PATH}${userID}${FAVORITES_PATH}`)
+        .on('value', async snapshot => {
+            let favorites = await getFavoritesFromSnapshot(snapshot);
+            favorites = filterValidFavorites(favorites);
+            dispatch({
+                type: actionTypes.load_favorites_success as ActionType,
+                favorites
+            });
+        });
 }
 
 function petQuery(petfinderID: string) {
@@ -40,30 +56,19 @@ function petQuery(petfinderID: string) {
 function fetchFavoritePet(petfinderID: string) {
     return fetch(petQuery(petfinderID))
         .then(res => res.json())
-        .then((res: any) => {
-            const error = checkErrorMessage(petfinderID, res.petfinder.header.status.message.$t)
-            if (error) {
+        .then((res: PetfinderSingleResult) => {
+            const { pet } = res.petfinder;
+            if (pet) {
+                return Pet.fromPetfinder(pet);
+            } else {
                 return new Pet('');
             }
-            const { pet } = res.petfinder;
-            return new Pet(
-                pet.id.$t,
-                pet.name.$t,
-                pet.age.$t,
-                pet.size.$t,
-                pet.description.$t,
-                pet.sex.$t,
-                pet.media.photos.photo
-                    .filter((photo: any) => photo['@size'] === 'x')
-                    .map((photo: any) => photo.$t)
-            );
-        })
+        });
 }
 
-function checkErrorMessage(petfinderID: string, errorMessage: string) {
-    if (errorMessage
-        && errorMessage.includes(PET_NOT_FOUND[0])
-        && errorMessage.includes(PET_NOT_FOUND[1])) {
-        return { petfinderID, message: 'Sorry, one of your pets is no longer available' }
-    }
+export function startFavoritesListener(userID: string) {
+    return (dispatch: (action: FavoritesAction) => void) => {
+        dispatch({ type: actionTypes.load_favorites_start as ActionType });
+        listenFavoritePets(dispatch, userID);
+    };
 }

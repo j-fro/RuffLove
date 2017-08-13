@@ -14,6 +14,7 @@ export interface Action {
 export interface ProfileAction {
     type: ActionType;
     postalCode?: string;
+    viewedPetIDs?: string[];
 }
 
 export interface PetAction {
@@ -37,32 +38,6 @@ export interface FavoritesAction {
     type: ActionType;
     favorites?: Pet[];
 }
-
-export type ActionType =
-    'like_pet'
-    | 'skip_pet'
-    | 'request_pets_start'
-    | 'request_pets_success'
-    | 'request_pets_failure'
-    | 'request_next_pet_start'
-    | 'request_next_pet_success'
-    | 'request_next_pet_failure'
-    | 'advance_pet'
-    | 'change_postal_code'
-    | 'change_email'
-    | 'change_password'
-    | 'register_start'
-    | 'register_success'
-    | 'register_error'
-    | 'auth_listen_start'
-    | 'auth_listen_authenticated'
-    | 'login_start'
-    | 'login_success'
-    | 'login_error'
-    | 'switch_pet_type'
-    | 'init_db'
-    | 'load_favorites_start'
-    | 'load_favorites_success'
 
 export const actionTypes = {
     like_pet: 'like_pet',
@@ -89,4 +64,9 @@ export const actionTypes = {
     init_db: 'init_db',
     load_favorites_start: 'load_favorites_start',
     load_favorites_success: 'load_favorites_success',
-}
+    profile_listener_start: 'profile_listener_start',
+    profile_listener_success: 'profile_listener_success',
+    change_viewed_pets: 'change_viewed_pets'
+};
+
+export type ActionType = keyof typeof actionTypes;

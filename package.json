@@ -25,6 +25,7 @@
     "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
+    "@types/react-navigation": "^1.0.15",
     "babel-jest": "19.0.0",
     "babel-preset-react-native": "1.9.1",
     "jest": "19.0.2",

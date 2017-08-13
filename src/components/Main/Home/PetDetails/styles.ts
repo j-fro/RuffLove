@@ -1,19 +1,13 @@
-import { StyleSheet, ViewStyle, ImageStyle, TextStyle, Dimensions } from 'react-native';
-import { primaryColor, secondaryBackground, textColor } from '../../../../config/colors';
+import { StyleSheet, ViewStyle, Dimensions } from 'react-native';
+import { primaryColor, secondaryBackground } from '../../../../config/colors';
 import parentStyles from '../styles';
 
 const { width } = Dimensions.get('window');
 
 interface IStyle {
     container: ViewStyle;
-    wrapper: ViewStyle;
     scrollContainer: ViewStyle;
     detailContainer: ViewStyle;
-    name: TextStyle;
-    detail: TextStyle;
-    description: TextStyle;
-    image: ImageStyle;
-    slide: ViewStyle;
 }
 
 const styles = StyleSheet.create<IStyle>({
@@ -23,17 +17,6 @@ const styles = StyleSheet.create<IStyle>({
         justifyContent: 'center',
         padding: 0,
         backgroundColor: primaryColor
-    },
-    wrapper: {
-        height: width,
-        backgroundColor: primaryColor,
-        borderRadius: 3,
-        shadowOpacity: 0.5,
-        shadowOffset: {
-            width: 5,
-            height: 5
-        },
-        elevation: 5
     },
     scrollContainer: { flex: 1, padding: 10 },
     detailContainer: {
@@ -51,11 +34,6 @@ const styles = StyleSheet.create<IStyle>({
         },
         elevation: 5
     },
-    name: { fontSize: 20, fontWeight: 'bold', marginBottom: 10, color: textColor },
-    detail: { fontWeight: 'bold', marginBottom: 5, color: textColor },
-    description: { marginBottom: 30, color: textColor },
-    image: { flex: 1 },
-    slide: { flex: 1, justifyContent: 'center', alignItems: 'stretch' },
 });
 
 export default {

@@ -1,28 +1,33 @@
 import React from 'react';
-import {
-    View,
-    TouchableHighlight,
-    Text,
-    Image,
-    ImageURISource
-} from 'react-native';
+import { View, TouchableHighlight, Text, Image, ImageStyle, ImageURISource } from 'react-native';
 import styles from './styles';
 
 interface IPortraitButtonProps {
     onPress: () => void;
+    onLongPress?: () => void;
     source: ImageURISource;
     label?: string;
     height?: number;
     width?: number;
 }
 
-const PortraitButton = ({ source, height, width, onPress, label }: IPortraitButtonProps) => (
-    <TouchableHighlight onPress={onPress} style={styles.shadowBox}>
+const PortraitButton = (props: IPortraitButtonProps) =>
+    <TouchableHighlight
+        onPress={props.onPress}
+        onLongPress={props.onLongPress}
+        style={styles.shadowBox}
+    >
         <View style={styles.portraitContainer}>
-            <Image source={source} style={[{ height, width }, styles.portrait]} />
-            <Text style={styles.label}>{label}</Text>
+            <Image
+                source={props.source}
+                style={
+                    [{ height: props.height, width: props.width }, styles.portrait] as ImageStyle
+                }
+            />
+            <Text style={styles.label}>
+                {props.label}
+            </Text>
         </View>
-    </TouchableHighlight>
-);
+    </TouchableHighlight>;
 
 export default PortraitButton;

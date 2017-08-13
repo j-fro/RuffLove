@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import { TabNavigator, NavigationProp, NavigationRoute, NavigationAction } from 'react-navigation';
 import { connect } from 'react-redux';
-import { Database } from '../../state/database';
 import { IAppState } from '../../state/state';
 import { rootRoutes } from '../../config/routes';
 import {
     fetchPets,
     advancePet,
     listenForAuth,
-    listenerPostalCode,
-    listenFavorites
+    startProfileListener,
+    startFavoritesListener
 } from '../../state/actions';
 import { Login } from '../Login';
 import Home from './Home';
@@ -23,7 +22,7 @@ interface IMainProps {
     navigation: NavigationProp<NavigationRoute<{}>, NavigationAction>;
 }
 
-interface IMainState { }
+interface IMainState {}
 
 class Main extends Component<IMainProps, IMainState> {
     constructor(props: IMainProps, context: any) {
@@ -39,8 +38,8 @@ class Main extends Component<IMainProps, IMainState> {
     componentWillReceiveProps(props: IMainProps) {
         console.log(props);
         const { dispatch, userID } = props;
-        dispatch(listenerPostalCode(userID));
-        dispatch(listenFavorites(userID));
+        dispatch(startProfileListener(userID));
+        dispatch(startFavoritesListener(userID));
     }
 
     render() {
@@ -48,20 +47,17 @@ class Main extends Component<IMainProps, IMainState> {
             {
                 [rootRoutes.main]: { screen: Home },
                 [rootRoutes.favorites]: { screen: Favorites },
-                [rootRoutes.profile]: { screen: Profile },
+                [rootRoutes.profile]: { screen: Profile }
             },
             { initialRouteName: rootRoutes.main, swipeEnabled: false }
         );
 
-        return this.props.authenticated
-            ? <Nav />
-            : <Login />;
+        return this.props.authenticated ? <Nav /> : <Login />;
     }
-
 }
 
 function mapStateToProps({ auth }: IAppState) {
-    return ({ authenticated: auth.authenticated, userID: auth.userID })
+    return { authenticated: auth.authenticated, userID: auth.userID };
 }
 
 export default connect(mapStateToProps)(Main);

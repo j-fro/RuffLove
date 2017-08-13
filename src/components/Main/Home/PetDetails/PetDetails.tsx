@@ -1,10 +1,9 @@
 import React from 'react';
-import { ScrollView, View, Text, Dimensions, Image } from 'react-native';
 import Swiper from 'react-native-swiper';
+import { ScrollView, View } from 'react-native';
+import { Text, PetPhotoSwiper } from '../../../common';
 import { Pet } from '../../../../state/Pet';
 import styles from './styles';
-
-const { width } = Dimensions.get('window');
 
 interface IPetDetailsProps {
     pet: Pet;
@@ -16,27 +15,13 @@ function PetDetails(props: IPetDetailsProps) {
     return (
         <View style={styles.container}>
             <ScrollView style={styles.scrollContainer}>
-                <View>
-                    <Swiper
-                        style={styles.wrapper}
-                        loadMinimal
-                        height={width}
-                        width={width - 20}
-                        showsButtons
-                    >
-                        {imageUrls.map(uri => (
-                            <View key={uri} style={styles.slide}>
-                                <Image key={uri} style={styles.image} source={{ uri }} />
-                            </View>
-                        ))}
-                    </Swiper>
-                </View>
+                <PetPhotoSwiper imageURLs={imageUrls} />
                 <View style={styles.detailContainer}>
-                    <Text style={styles.name}>{name}</Text>
-                    <Text style={styles.detail}>{`Sex: ${sex}`}</Text>
-                    <Text style={styles.detail}>{`Age: ${age}`}</Text>
-                    <Text style={styles.detail}>{`Size: ${size}`}</Text>
-                    <Text style={styles.description}>{description}</Text>
+                    <Text.Name>{name}</Text.Name>
+                    <Text.Detail>{`Sex: ${sex}`}</Text.Detail>
+                    <Text.Detail>{`Age: ${age}`}</Text.Detail>
+                    <Text.Detail>{`Size: ${size}`}</Text.Detail>
+                    <Text.Description>{description}</Text.Description>
                 </View>
             </ScrollView>
         </View>
