@@ -5,121 +5,105 @@ import {
     PanResponderInstance,
     PanResponderGestureState,
     LayoutChangeEvent,
-    LayoutRectangle,
     Dimensions
 } from 'react-native';
 import { connect } from 'react-redux';
+import { NavigationScreenProps } from 'react-navigation';
 import { Pet } from '../../../../state/Pet';
 import { IAppState } from '../../../../state/state';
-import { Database } from '../../../../state/database';
 import { fetchPets } from '../../../../state/actions';
 import { addNewFavorite } from '../../../../state/actions';
 import { actionTypes } from '../../../../state/actionTypes';
 import { homeRoutes } from '../../../../config/routes';
 import PetSwiper from './PetSwiper';
 
-const { width } = Dimensions.get('window');
-
-const DROP_ZONE_WIDTH_PERCENT = 0.25;
-
-enum DropSide {
-    Left,
-    Right,
-    None,
-}
-
-interface IPetSwiperContainerProps {
-    db: Database;
+type Props = NavigationScreenProps<void> & {
     userID: string;
     pet: Pet;
     isFetching: boolean;
     dispatch: Function;
     offset: number;
     postalCode: string;
-    navigation: {
-        navigate: Function,
+};
+
+type State = {
+    petContainerPan: Animated.ValueXY;
+    petConatinerOpacity: Animated.Value;
+    center: { x: number; y: number };
+};
+
+class PetSwiperContainer extends Component<Props, State> {
+    state: State = {
+        petContainerPan: new Animated.ValueXY(),
+        petConatinerOpacity: new Animated.Value(1),
+        center: { x: 0, y: 0 }
     };
-}
 
-interface IPetSwiperContainerState {
-    pan: Animated.ValueXY;
-    leftDropZoneValues: LayoutRectangle;
-    rightDropZoneValues: LayoutRectangle;
-}
-
-class PetSwiperContainer extends Component<IPetSwiperContainerProps, IPetSwiperContainerState> {
-    panResponder: PanResponderInstance;
-
-    constructor(props: IPetSwiperContainerProps, context: any) {
-        super(props, context);
-
-        this.state = {
-            pan: new Animated.ValueXY(),
-            leftDropZoneValues: {
-                x: 0,
-                y: 0,
-                width: width * DROP_ZONE_WIDTH_PERCENT,
-                height: 0
-            },
-            rightDropZoneValues: {
-                x: width - (width * DROP_ZONE_WIDTH_PERCENT),
-                y: 0,
-                width: width * DROP_ZONE_WIDTH_PERCENT,
-                height: 0
+    panResponder: PanResponderInstance = PanResponder.create({
+        onStartShouldSetPanResponder: () => true,
+        onMoveShouldSetPanResponder: () => true,
+        onPanResponderMove: Animated.event([
+            {},
+            {
+                dx: this.state.petContainerPan.x,
+                dy: this.state.petContainerPan.y
             }
-        };
-
-        this.panResponder = PanResponder.create({
-            onStartShouldSetPanResponder: () => true,
-            onMoveShouldSetPanResponder: () => true,
-            onPanResponderMove: Animated.event([null, {
-                dx: this.state.pan.x,
-                dy: this.state.pan.y
-            }]),
-            onPanResponderRelease: (_, gesture) => {
-                if (this.isDropZone(gesture) === DropSide.Right) {
-                    this.handleLikePress();
-                } else if (this.isDropZone(gesture) === DropSide.Left) {
-                    this.handleDislikePress();
-                }
-                Animated.spring(this.state.pan, { toValue: { x: 0, y: 0 } }).start();
+        ]),
+        onPanResponderRelease: (_, gesture) => {
+            if (isLikeGesture(gesture)) {
+                this.handleLikePress();
+                this.launchAndResetPet(gesture);
+            } else if (isDislikeGesture(gesture)) {
+                this.handleDislikePress();
+                this.launchAndResetPet(gesture);
+            } else {
+                Animated.spring(this.state.petContainerPan, { toValue: { x: 0, y: 0 } }).start();
             }
-        });
-    }
-
-    setLeftDropZoneValues = (event: LayoutChangeEvent) => {
-        this.setState({ leftDropZoneValues: event.nativeEvent.layout })
-    }
-
-    setRightDropZoneValues = (event: LayoutChangeEvent) => {
-        this.setState({ rightDropZoneValues: event.nativeEvent.layout })
-    }
-
-    isDropZone = (gesture: PanResponderGestureState): DropSide => {
-        const { leftDropZoneValues, rightDropZoneValues } = this.state;
-        if (gesture.moveX < leftDropZoneValues.x + leftDropZoneValues.width) {
-            return DropSide.Left;
-        } else if (gesture.moveX > rightDropZoneValues.x) {
-            return DropSide.Right;
         }
-        return DropSide.None;
+    });
+
+    setPetFrameCenter(event: LayoutChangeEvent) {
+        if (this.state.center.x === 0) {
+            console.log('onlayout');
+            const { x, y } = event.nativeEvent.layout;
+            this.setState({ center: { x, y } });
+        }
+    }
+
+    launchAndResetPet(gesture: PanResponderGestureState) {
+        const { width } = Dimensions.get('window');
+        console.log('Width', width * gesture.vx);
+        console.log('Height', width * gesture.vy);
+        const speed = getSwipeSpeed(gesture);
+        Animated.timing(this.state.petContainerPan, {
+            toValue: { x: width * gesture.vx, y: width * gesture.vy },
+            duration: 500 / speed
+        }).start(() => this.resetPetData());
+    }
+
+    resetPetData() {
+        this.state.petContainerPan.setValue({ x: 0, y: 0 });
+        this.state.petConatinerOpacity.setValue(0);
+        Animated.timing(this.state.petConatinerOpacity, { toValue: 1, duration: 500 }).start();
     }
 
     handleLikePress = () => {
+        console.log('LIKE');
         const { pet, userID } = this.props;
         addNewFavorite(userID, pet.petfinderID);
         this.advancePet();
-    }
+    };
 
     handleDislikePress = () => {
+        console.log('DISLIKE');
         this.advancePet();
-    }
+    };
 
     advancePet = () => {
         const { dispatch } = this.props;
         dispatch({ type: actionTypes.advance_pet });
         dispatch(fetchPets());
-    }
+    };
 
     handleDetailsPress() {
         const { navigate } = this.props.navigation;
@@ -130,26 +114,44 @@ class PetSwiperContainer extends Component<IPetSwiperContainerProps, IPetSwiperC
         return (
             <PetSwiper
                 panHandlers={this.panResponder.panHandlers}
-                panLayout={this.state.pan.getLayout()}
+                panLayout={this.state.petContainerPan.getLayout()}
+                pet={this.props.pet}
+                petContainerOpacity={this.state.petConatinerOpacity}
+                isFetching={this.props.isFetching}
+                onLayout={e => this.setPetFrameCenter(e)}
                 onLikePress={this.handleLikePress}
                 onDislikePress={this.handleDislikePress}
                 onDetailsPress={this.handleDetailsPress.bind(this)}
-                pet={this.props.pet}
-                isFetching={this.props.isFetching}
             />
         );
     }
 }
 
-function mapStateToProps({ pets, profile, auth, db }: IAppState) {
+function mapStateToProps({ pets, profile, auth }: IAppState) {
     return {
-        db: db,
         userID: auth.userID,
         pet: pets.currentPet,
         isFetching: pets.isFetching,
         offset: pets.offset,
-        postalCode: profile.postalCode,
+        postalCode: profile.postalCode
     };
 }
 
 export default connect(mapStateToProps)(PetSwiperContainer);
+
+function getSwipeSpeed(gesture: PanResponderGestureState) {
+    const { vx, vy } = gesture;
+    return Math.sqrt(vx * vx + vy * vy);
+}
+
+function isSwipeGesture(gesture: PanResponderGestureState) {
+    return getSwipeSpeed(gesture) > 0.7;
+}
+
+function isLikeGesture(gesture: PanResponderGestureState) {
+    return isSwipeGesture(gesture) && gesture.dx > 100;
+}
+
+function isDislikeGesture(gesture: PanResponderGestureState) {
+    return isSwipeGesture(gesture) && gesture.dx < -100;
+}
