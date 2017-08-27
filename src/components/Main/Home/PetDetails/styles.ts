@@ -1,8 +1,6 @@
-import { StyleSheet, ViewStyle, Dimensions } from 'react-native';
+import { StyleSheet, ViewStyle } from 'react-native';
 import { primaryColor, secondaryBackground } from '../../../../config/colors';
 import parentStyles from '../styles';
-
-const { width } = Dimensions.get('window');
 
 interface IStyle {
     container: ViewStyle;
@@ -33,7 +31,7 @@ const styles = StyleSheet.create<IStyle>({
             height: 5
         },
         elevation: 5
-    },
+    }
 });
 
 export default {
