@@ -1,40 +1,40 @@
 {
-  "name": "RuffLoveTs",
-  "version": "0.0.1",
-  "private": true,
-  "scripts": {
-    "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
-  },
-  "dependencies": {
-    "@types/firebase": "^2.4.31",
-    "@types/react": "^15.0.20",
-    "@types/react-native": "^0.44",
-    "@types/react-native-swiper": "^1.5.5",
-    "@types/react-navigation": "^1.0.0",
-    "@types/react-redux": "^4.4.38",
-    "@types/redux-logger": "^3.0.0",
-    "firebase": "^3.7.5",
-    "react": "^16.0.0-alpha.6",
-    "react-native": "^0.44.0",
-    "react-native-swiper": "^1.5.4",
-    "react-navigation": "^1.0.0-beta.9",
-    "react-redux": "^5.0.3",
-    "redux": "^3.6.0",
-    "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.2.0"
-  },
-  "devDependencies": {
-    "@types/react-navigation": "^1.0.15",
-    "babel-jest": "19.0.0",
-    "babel-preset-react-native": "1.9.1",
-    "jest": "19.0.2",
-    "react-test-renderer": "15.4.2",
-    "tslint": "^5.2.0",
-    "tslint-eslint-rules": "^4.0.0",
-    "typescript": "^2.3.2"
-  },
-  "jest": {
-    "preset": "react-native"
-  }
+    "name": "RuffLoveTs",
+    "version": "0.0.1",
+    "private": true,
+    "scripts": {
+        "start": "node node_modules/react-native/local-cli/cli.js start",
+        "test": "jest"
+    },
+    "dependencies": {
+        "@types/firebase": "^2.4.31",
+        "@types/react": "^15.0.20",
+        "@types/react-native": "^0.44",
+        "@types/react-native-swiper": "^1.5.5",
+        "@types/react-navigation": "^1.0.0",
+        "@types/react-redux": "^4.4.38",
+        "@types/redux-logger": "^3.0.0",
+        "firebase": "^3.7.5",
+        "react": "16.0.0-alpha.6",
+        "react-native": "0.44.0",
+        "react-native-swiper": "^1.5.4",
+        "react-navigation": "^1.0.0-beta.9",
+        "react-redux": "^5.0.3",
+        "redux": "^3.6.0",
+        "redux-logger": "^3.0.6",
+        "redux-thunk": "^2.2.0"
+    },
+    "devDependencies": {
+        "@types/react-navigation": "^1.0.15",
+        "babel-jest": "19.0.0",
+        "babel-preset-react-native": "1.9.1",
+        "jest": "19.0.2",
+        "react-test-renderer": "15.4.2",
+        "tslint": "^5.2.0",
+        "tslint-eslint-rules": "^4.0.0",
+        "typescript": "^2.3.2"
+    },
+    "jest": {
+        "preset": "react-native"
+    }
 }
