@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavigationAction, NavigationRoute, NavigationScreenProp } from 'react-navigation';
+import { NavigationScreenProps } from 'react-navigation';
 import { connect } from 'react-redux';
 import { IAppState } from '../../../../state/state';
 import { removeFavorite } from '../../../../state/actions';
@@ -8,39 +8,40 @@ import { homeRoutes } from '../../../../config/routes';
 import FavoritesList from './FavoritesList';
 import Cell from './Cell';
 
-interface IFavoritesListContainerProps {
+type Props = NavigationScreenProps<void> & {
     favorites: Pet[];
     userID: string;
     dispatch: Function;
-    navigation: NavigationScreenProp<NavigationRoute<{}>, NavigationAction>;
-}
+};
 
 interface IPetListItem {
     item: Pet;
 }
 
-class FavoritesListContainer extends Component<IFavoritesListContainerProps, void> {
-    handleDetailPress = (pet: Pet) => {
+class FavoritesListContainer extends Component<Props, void> {
+    handleDetailPress(pet: Pet) {
         const { navigate } = this.props.navigation;
         navigate(homeRoutes.details, { pet });
-    };
+    }
 
-    handleRemovePress = (pet: Pet) => {
+    handleRemovePress(pet: Pet) {
         removeFavorite(this.props.userID, pet.petfinderID);
-    };
+    }
 
-    renderItem = ({ item }: IPetListItem) => {
+    renderItem(pet: Pet) {
         return (
             <Cell
-                pet={item}
-                onPress={() => this.handleDetailPress(item)}
-                onLongPress={() => this.handleRemovePress(item)}
+                pet={pet}
+                onPress={() => this.handleDetailPress(pet)}
+                onLongPress={() => this.handleRemovePress(pet)}
             />
         );
-    };
+    }
 
     render() {
-        return <FavoritesList data={this.props.favorites} renderItem={this.renderItem} />;
+        return (
+            <FavoritesList data={this.props.favorites} renderItem={item => this.renderItem(item)} />
+        );
     }
 }
 

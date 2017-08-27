@@ -87,23 +87,23 @@ class PetSwiperContainer extends Component<Props, State> {
         Animated.timing(this.state.petConatinerOpacity, { toValue: 1, duration: 500 }).start();
     }
 
-    handleLikePress = () => {
+    handleLikePress() {
         console.log('LIKE');
         const { pet, userID } = this.props;
         addNewFavorite(userID, pet.petfinderID);
         this.advancePet();
-    };
+    }
 
-    handleDislikePress = () => {
+    handleDislikePress() {
         console.log('DISLIKE');
         this.advancePet();
-    };
+    }
 
-    advancePet = () => {
+    advancePet() {
         const { dispatch } = this.props;
         dispatch({ type: actionTypes.advance_pet });
         dispatch(fetchPets());
-    };
+    }
 
     handleDetailsPress() {
         const { navigate } = this.props.navigation;
@@ -119,9 +119,9 @@ class PetSwiperContainer extends Component<Props, State> {
                 petContainerOpacity={this.state.petConatinerOpacity}
                 isFetching={this.props.isFetching}
                 onLayout={e => this.setPetFrameCenter(e)}
-                onLikePress={this.handleLikePress}
-                onDislikePress={this.handleDislikePress}
-                onDetailsPress={this.handleDetailsPress.bind(this)}
+                onLikePress={() => this.handleLikePress()}
+                onDislikePress={() => this.handleDislikePress()}
+                onDetailsPress={() => this.handleDetailsPress()}
             />
         );
     }
