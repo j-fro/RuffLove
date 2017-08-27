@@ -7,40 +7,46 @@ import { Pet } from '../../../../state/Pet';
 import { homeRoutes } from '../../../../config/routes';
 import FavoritesList from './FavoritesList';
 import Cell from './Cell';
+import { FlatList } from 'react-native';
 
 type Props = NavigationScreenProps<void> & {
     favorites: Pet[];
-    userID: string;
+    userID: string | null;
     dispatch: Function;
 };
 
-interface IPetListItem {
-    item: Pet;
-}
-
-class FavoritesListContainer extends Component<Props, void> {
+class FavoritesListContainer extends Component<Props, {}> {
     handleDetailPress(pet: Pet) {
         const { navigate } = this.props.navigation;
         navigate(homeRoutes.details, { pet });
     }
 
     handleRemovePress(pet: Pet) {
-        removeFavorite(this.props.userID, pet.petfinderID);
+        if (this.props.userID) {
+            removeFavorite(this.props.userID, pet.petfinderID);
+        } else {
+            throw new Error('Cannot remove a favorite without a user ID');
+        }
     }
 
-    renderItem(pet: Pet) {
+    renderItem({ item }: { item: Pet }) {
         return (
             <Cell
-                pet={pet}
-                onPress={() => this.handleDetailPress(pet)}
-                onLongPress={() => this.handleRemovePress(pet)}
+                pet={item}
+                onPress={() => this.handleDetailPress(item)}
+                onLongPress={() => this.handleRemovePress(item)}
             />
         );
     }
 
     render() {
         return (
-            <FavoritesList data={this.props.favorites} renderItem={item => this.renderItem(item)} />
+            <FlatList
+                data={this.props.favorites}
+                renderItem={item => this.renderItem(item)}
+                numColumns={2}
+                keyExtractor={(item: Pet) => item.petfinderID}
+            />
         );
     }
 }
