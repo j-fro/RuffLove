@@ -1,7 +1,8 @@
 import { Pet } from '../Pet';
 import { PetAction, actionTypes } from '../actionTypes';
 import { IAppState } from '../state';
-import { PetfinderGroupResult } from '../PetfinderResult';
+import { PetfinderSingleResult } from '../PetfinderResult';
+import { buildQueryURL } from '../../utils/urlUtils';
 import config from '../../config/keys';
 
 function requestPets(offset: number) {
@@ -22,32 +23,40 @@ export function advancePet() {
     };
 }
 
-function buildPetQuery(count: number, postalCode: string, offset: number, type: 'dog' | 'cat') {
-    const query = `pet.find?animal=${type}&count=${count}&location=${postalCode}`;
-    let url = `https://api.petfinder.com/${query}&format=json&key=${config.key}`;
-    if (offset) {
-        url += `&offset=${offset}`;
-    }
+function buildPetQuery(postalCode: string, type: 'dog' | 'cat') {
+    const url = buildQueryURL('https://api.petfinder.com/pet.getRandom', {
+        animal: type,
+        location: postalCode,
+        key: config.key,
+        format: 'json',
+        output: 'basic'
+    });
     return url;
 }
 
-async function fetchPetfinderResults(
-    count: number,
-    postalCode: string,
-    offset: number,
-    type: 'dog' | 'cat'
-): Promise<PetfinderGroupResult> {
-    const result = await fetch(buildPetQuery(count, postalCode, offset, type));
+async function fetchPetfinderResults(postalCode: string, type: 'dog' | 'cat'): Promise<PetfinderSingleResult> {
+    const result = await fetch(buildPetQuery(postalCode, type));
     return result.json();
 }
 
-function processPetfinderResults(results: PetfinderGroupResult) {
-    if (results.petfinder.pets != null && results.petfinder.lastOffset != null) {
-        const newOffset = Number(results.petfinder.lastOffset.$t);
-        const newPets = results.petfinder.pets.pet.map(pet => Pet.fromPetfinder(pet));
-        return receivePets(newOffset, newPets);
+function processPetfinderResults(results: PetfinderSingleResult): Pet | undefined {
+    if (results.petfinder.pet != null) {
+        const pet = Pet.fromPetfinder(results.petfinder.pet);
+        return pet;
     }
-    return errorPets(results.petfinder.header.status.message.$t, 10);
+}
+
+async function getRandomPets(postalCode: string, type: 'dog' | 'cat', pets: Pet[] = []): Promise<Pet[]> {
+    const results = await fetchPetfinderResults(postalCode, type);
+    const pet = processPetfinderResults(results);
+    if (pet) {
+        const updatedPets = [...pets, pet];
+        if (updatedPets.length < 10) {
+            return getRandomPets(postalCode, type, updatedPets);
+        }
+        return updatedPets;
+    }
+    return [];
 }
 
 export function fetchPets() {
@@ -56,8 +65,12 @@ export function fetchPets() {
         if (pets.petQueue.length < 5) {
             let { postalCode, petType } = profile;
             dispatch(requestPets(pets.offset));
-            const results = await fetchPetfinderResults(10, postalCode, pets.offset, petType);
-            dispatch(processPetfinderResults(results));
+            if (postalCode) {
+                const pets = await getRandomPets(postalCode, petType);
+                dispatch(receivePets(0, pets));
+            } else {
+                dispatch(errorPets('Cannot get pets without a postal code', 0));
+            }
         }
     };
 }
