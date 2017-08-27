@@ -16,7 +16,11 @@ interface DetailTextProps {
 }
 
 function Detail(props: DetailTextProps) {
-    return <Text style={[style.detail, props.style]}>{props.children}</Text>;
+    return (
+        <Text style={[style.detail, props.style] as TextStyle}>
+            {props.children}
+        </Text>
+    );
 }
 
 export default Detail;
