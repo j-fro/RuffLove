@@ -5,7 +5,6 @@ import { IAppState } from '../../../../state/state';
 import { removeFavorite } from '../../../../state/actions';
 import { Pet } from '../../../../state/Pet';
 import { homeRoutes } from '../../../../config/routes';
-import FavoritesList from './FavoritesList';
 import Cell from './Cell';
 import { FlatList } from 'react-native';
 

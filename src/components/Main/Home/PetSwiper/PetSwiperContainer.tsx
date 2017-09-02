@@ -130,7 +130,7 @@ class PetSwiperContainer extends Component<Props, State> {
 function mapStateToProps({ pets, profile, auth }: IAppState) {
     return {
         userID: auth.userID,
-        pet: pets.currentPet,
+        pet: pets.petQueue[0],
         isFetching: pets.isFetching,
         offset: pets.offset,
         postalCode: profile.postalCode

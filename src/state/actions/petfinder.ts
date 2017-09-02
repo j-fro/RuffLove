@@ -29,7 +29,7 @@ function buildPetQuery(postalCode: string, type: 'dog' | 'cat') {
         location: postalCode,
         key: config.key,
         format: 'json',
-        output: 'basic'
+        output: 'full'
     });
     return url;
 }
