@@ -1,35 +1,34 @@
 import React, { Component } from 'react';
-import { NavigationAction, NavigationRoute, NavigationScreenProp } from 'react-navigation';
+import { NavigationScreenProps } from 'react-navigation';
 import { connect } from 'react-redux';
 import { IAppState } from '../../../../state/state';
 import { removeFavorite } from '../../../../state/actions';
 import { Pet } from '../../../../state/Pet';
 import { homeRoutes } from '../../../../config/routes';
-import FavoritesList from './FavoritesList';
 import Cell from './Cell';
+import { FlatList } from 'react-native';
 
-interface IFavoritesListContainerProps {
+type Props = NavigationScreenProps<void> & {
     favorites: Pet[];
-    userID: string;
+    userID: string | null;
     dispatch: Function;
-    navigation: NavigationScreenProp<NavigationRoute<{}>, NavigationAction>;
-}
+};
 
-interface IPetListItem {
-    item: Pet;
-}
-
-class FavoritesListContainer extends Component<IFavoritesListContainerProps, void> {
-    handleDetailPress = (pet: Pet) => {
+class FavoritesListContainer extends Component<Props, {}> {
+    handleDetailPress(pet: Pet) {
         const { navigate } = this.props.navigation;
         navigate(homeRoutes.details, { pet });
-    };
+    }
 
-    handleRemovePress = (pet: Pet) => {
-        removeFavorite(this.props.userID, pet.petfinderID);
-    };
+    handleRemovePress(pet: Pet) {
+        if (this.props.userID) {
+            removeFavorite(this.props.userID, pet.petfinderID);
+        } else {
+            throw new Error('Cannot remove a favorite without a user ID');
+        }
+    }
 
-    renderItem = ({ item }: IPetListItem) => {
+    renderItem({ item }: { item: Pet }) {
         return (
             <Cell
                 pet={item}
@@ -37,10 +36,17 @@ class FavoritesListContainer extends Component<IFavoritesListContainerProps, voi
                 onLongPress={() => this.handleRemovePress(item)}
             />
         );
-    };
+    }
 
     render() {
-        return <FavoritesList data={this.props.favorites} renderItem={this.renderItem} />;
+        return (
+            <FlatList
+                data={this.props.favorites}
+                renderItem={item => this.renderItem(item)}
+                numColumns={2}
+                keyExtractor={(item: Pet) => item.petfinderID}
+            />
+        );
     }
 }
 

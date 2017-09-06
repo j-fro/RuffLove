@@ -12,7 +12,11 @@ interface DescriptionTextProps {
 }
 
 function Description(props: DescriptionTextProps) {
-    return <Text style={[style.description, props.style]}>{props.children}</Text>;
+    return (
+        <Text style={[style.description, props.style] as TextStyle}>
+            {props.children}
+        </Text>
+    );
 }
 
 export default Description;

@@ -1,8 +1,6 @@
-import { StyleSheet, ViewStyle, Dimensions } from 'react-native';
-import { primaryColor, secondaryBackground } from '../../../../config/colors';
+import { StyleSheet, ViewStyle } from 'react-native';
+import { PRIMARY, secondaryBackground } from '../../../../config/colors';
 import parentStyles from '../styles';
-
-const { width } = Dimensions.get('window');
 
 interface IStyle {
     container: ViewStyle;
@@ -16,7 +14,7 @@ const styles = StyleSheet.create<IStyle>({
         alignItems: 'center',
         justifyContent: 'center',
         padding: 0,
-        backgroundColor: primaryColor
+        backgroundColor: PRIMARY
     },
     scrollContainer: { flex: 1, padding: 10 },
     detailContainer: {
@@ -33,7 +31,7 @@ const styles = StyleSheet.create<IStyle>({
             height: 5
         },
         elevation: 5
-    },
+    }
 });
 
 export default {

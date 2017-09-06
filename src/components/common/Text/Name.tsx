@@ -17,7 +17,11 @@ interface NameTextProps {
 }
 
 function Name(props: NameTextProps) {
-    return <Text style={[style.name, props.style]}>{props.children}</Text>;
+    return (
+        <Text style={[style.name, props.style] as TextStyle}>
+            {props.children}
+        </Text>
+    );
 }
 
 export default Name;

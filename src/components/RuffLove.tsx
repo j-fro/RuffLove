@@ -11,9 +11,9 @@ const loggerMiddleware = createLogger();
 
 const store = createStore(reducer, applyMiddleware(thunkMiddleware, loggerMiddleware));
 
-interface IRuffLoveProps { }
+interface IRuffLoveProps {}
 
-interface IRuffLoveState { }
+interface IRuffLoveState {}
 
 class RuffLove extends Component<IRuffLoveProps, IRuffLoveState> {
     render() {

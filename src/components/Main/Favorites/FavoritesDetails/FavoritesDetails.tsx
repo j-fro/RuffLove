@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, ScrollView, StyleSheet } from 'react-native';
 import { Text, PetPhotoSwiper } from '../../../common';
-import { primaryColor, secondaryBackground } from '../../../../config/colors';
+import { PRIMARY, secondaryBackground } from '../../../../config/colors';
 import { Pet } from '../../../../state/Pet';
 
 const styles = StyleSheet.create({
@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         padding: 0,
-        backgroundColor: primaryColor
+        backgroundColor: PRIMARY
     },
     scrollContainer: {
         flex: 1,
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
             height: 5
         },
         elevation: 5
-    },
+    }
 });
 
 interface FavoritesDetailsProps {

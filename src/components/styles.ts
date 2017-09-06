@@ -1,5 +1,5 @@
 import { StyleSheet, ViewStyle } from 'react-native';
-import { primaryColor, secondaryBackground } from '../config/colors';
+import { PRIMARY, secondaryBackground } from '../config/colors';
 
 interface IStyle {
     container: ViewStyle;
@@ -13,7 +13,7 @@ export default StyleSheet.create<IStyle>({
         justifyContent: 'center',
         paddingTop: 10,
         paddingBottom: 10,
-        backgroundColor: primaryColor
+        backgroundColor: PRIMARY
     },
     button: {
         alignSelf: 'stretch',

@@ -1,28 +1,42 @@
 import React from 'react';
-import { View, Image, Animated, GestureResponderHandlers } from 'react-native';
+import {
+    View,
+    Image,
+    Animated,
+    GestureResponderHandlers,
+    LayoutChangeEvent,
+    ViewStyle
+} from 'react-native';
 import PetData from './PetData';
 import { Pet } from '../../../../state/Pet';
 import { Button } from '../../../common/';
 import { acceptIcon, declineIcon } from '../../../../config/images';
 import styles from './styles';
 
-interface IPetSwiperProps {
-    pet: Pet;
+interface Props {
     isFetching: boolean;
+    petContainerOpacity: Animated.Value;
+    pet: Pet;
+    panHandlers: GestureResponderHandlers;
+    panLayout: ViewStyle;
     onLikePress: () => void;
     onDislikePress: () => void;
     onDetailsPress: () => void;
-    panHandlers: GestureResponderHandlers;
-    panLayout: { [key: string]: Animated.Animated };
+    onLayout: (e: LayoutChangeEvent) => void;
 }
 
-export default function PetSwiper(props: IPetSwiperProps) {
+export default function PetSwiper(props: Props) {
     return (
         <View style={styles.container}>
             <View style={{ flexDirection: 'row', flex: 1 }}>
                 <Animated.View
                     {...props.panHandlers}
-                    style={[styles.animatedContainer, props.panLayout]}
+                    onLayout={props.onLayout}
+                    style={[
+                        styles.animatedContainer,
+                        props.panLayout,
+                        { opacity: props.petContainerOpacity }
+                    ]}
                 >
                     <PetData
                         onPress={props.onDetailsPress}
@@ -44,14 +58,13 @@ interface IIconButtonProps {
     source: any;
 }
 
-const IconButton = (props: IIconButtonProps) => (
+const IconButton = (props: IIconButtonProps) =>
     <Button onPress={props.onPress}>
         <Image style={styles.icon} source={props.source} />
-    </Button>
-);
+    </Button>;
 
-const AcceptButton =
-    (props: { onPress: () => void }) => <IconButton source={acceptIcon} {...props} />;
+const AcceptButton = (props: { onPress: () => void }) =>
+    <IconButton source={acceptIcon} {...props} />;
 
-const DeclineButton =
-    (props: { onPress: () => void }) => <IconButton source={declineIcon} {...props} />;
+const DeclineButton = (props: { onPress: () => void }) =>
+    <IconButton source={declineIcon} {...props} />;

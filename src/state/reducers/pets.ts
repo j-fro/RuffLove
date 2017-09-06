@@ -5,7 +5,7 @@ import { PetAction, actionTypes } from '../actionTypes';
 const initialState: IPetState = {
     isFetching: false,
     petQueue: new Array<Pet>(),
-    currentPet: null,
+    currentPet: new Pet(''),
     error: {},
     offset: 0
 };
@@ -20,10 +20,10 @@ export const petsReducer = (state = initialState, action: PetAction) => {
         case actionTypes.request_pets_success:
             return {
                 ...state,
-                petQueue: state.petQueue.concat(action.pets),
+                petQueue: state.petQueue.concat(action.pets || []),
                 isFetching: false,
                 offset: action.offset,
-                error: null,
+                error: null
             };
         case actionTypes.request_pets_failure:
             return { ...state, error: action.error, isFetching: false, offset: state.offset + 10 };
