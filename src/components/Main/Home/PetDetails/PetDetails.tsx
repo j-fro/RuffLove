@@ -16,15 +16,11 @@ function PetDetails(props: IPetDetailsProps) {
             <ScrollView style={styles.scrollContainer}>
                 <PetPhotoSwiper imageURLs={imageUrls} />
                 <View style={styles.detailContainer}>
-                    <Text.Name>
-                        {name}
-                    </Text.Name>
+                    <Text.Name>{name}</Text.Name>
                     <Text.Detail>{`Sex: ${sex}`}</Text.Detail>
                     <Text.Detail>{`Age: ${age}`}</Text.Detail>
                     <Text.Detail>{`Size: ${size}`}</Text.Detail>
-                    <Text.Description>
-                        {description}
-                    </Text.Description>
+                    <Text.Description>{description}</Text.Description>
                 </View>
             </ScrollView>
         </View>
