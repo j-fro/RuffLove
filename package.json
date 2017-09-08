@@ -6,7 +6,7 @@
         "start": "node node_modules/react-native/local-cli/cli.js start",
         "test": "jest",
         "podinstall": "cd ios && pod repo update && pod install && cd ..",
-        "ios": "node node_modules/react-native/local-cli/cli.js run-ios -- --simulator=\"iPhone 5\"",
+        "ios": "node node_modules/react-native/local-cli/cli.js run-ios --simulator=\"iPhone 5\"",
         "android": "node node_modules/react-native/local-cli/cli.js run-android"
     },
     "dependencies": {

@@ -1,29 +1,20 @@
-import firebase from 'firebase';
 import { Pet } from '../Pet';
 import { PetfinderSingleResult } from '../PetfinderResult';
 import { ActionType, actionTypes, FavoritesAction } from '../actionTypes';
+import { databaseRef, Snapshot, Events } from '../../config/database';
 import config from '../../config/keys';
 
-const USER_PATH = '/Users/';
-const FAVORITES_PATH = '/favorites/';
-
 export function addNewFavorite(userID: string, petfinderID: string) {
-    return firebase
-        .database()
-        .ref(`${USER_PATH}${userID}${FAVORITES_PATH}${petfinderID}`)
-        .set(new Date().toISOString());
+    return databaseRef.userFavorite(userID, petfinderID).set(new Date().toISOString());
 }
 
 export function removeFavorite(userID: string, petfinderID: string) {
-    return firebase.database().ref(`${USER_PATH}${userID}${FAVORITES_PATH}${petfinderID}`).remove();
+    return databaseRef.userFavorite(userID, petfinderID).remove();
 }
 
-function getFavoritesFromSnapshot(snapshot: firebase.database.DataSnapshot | null) {
+function getFavoritesFromSnapshot(snapshot: Snapshot | null) {
     if (snapshot) {
-        return Promise.all(
-            Object.keys(snapshot.val() || {})
-                .map(key => fetchFavoritePet(key))
-        );
+        return Promise.all(Object.keys(snapshot.val() || {}).map(key => fetchFavoritePet(key)));
     } else {
         return Promise.reject('');
     }
@@ -34,17 +25,14 @@ function filterValidFavorites(favorites: Pet[]) {
 }
 
 function listenFavoritePets(dispatch: (action: FavoritesAction) => void, userID: string) {
-    firebase
-        .database()
-        .ref(`${USER_PATH}${userID}${FAVORITES_PATH}`)
-        .on('value', async snapshot => {
-            let favorites = await getFavoritesFromSnapshot(snapshot);
-            favorites = filterValidFavorites(favorites);
-            dispatch({
-                type: actionTypes.load_favorites_success as ActionType,
-                favorites
-            });
+    databaseRef.userFavorites(userID).on(Events.Value, async snapshot => {
+        let favorites = await getFavoritesFromSnapshot(snapshot);
+        favorites = filterValidFavorites(favorites);
+        dispatch({
+            type: actionTypes.load_favorites_success as ActionType,
+            favorites
         });
+    });
 }
 
 function petQuery(petfinderID: string) {
