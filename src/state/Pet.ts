@@ -9,18 +9,23 @@ export class Pet {
         public description = '',
         public sex = '',
         public imageUrls = new Array<string>()
-    ) { }
+    ) {}
 
-    static fromPetfinder(petfinderResult: PetfinderPetResult) {
-        return new Pet(
-            petfinderResult.id.$t,
-            petfinderResult.name.$t,
-            petfinderResult.age.$t,
-            petfinderResult.size.$t,
-            petfinderResult.description.$t,
-            petfinderResult.sex.$t,
-            petfinderResult.media.photos.photo
-                .filter((photo: any) => photo['@size'] === 'x')
-                .map((photo: any) => photo.$t))
+    static fromPetfinder(petfinderResult: PetfinderPetResult): Pet {
+        if (petfinderResult.media.photos) {
+            return new Pet(
+                petfinderResult.id.$t,
+                petfinderResult.name.$t,
+                petfinderResult.age.$t,
+                petfinderResult.size.$t,
+                petfinderResult.description.$t,
+                petfinderResult.sex.$t,
+                petfinderResult.media.photos.photo
+                    .filter((photo: any) => photo['@size'] === 'x')
+                    .map((photo: any) => photo.$t)
+            );
+        } else {
+            throw new Error('Cannot make a pet without photos');
+        }
     }
 }

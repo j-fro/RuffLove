@@ -38,7 +38,7 @@ export interface PetfinderPetResult {
     };
     age: { $t: string };
     size: { $t: string };
-    media: { photos: { photo: PetfinderPhotoresult[] } };
+    media: { photos?: { photo: PetfinderPhotoresult[] } };
     id: { $t: string };
     shelterPetId: { $t?: string };
     breeds: { breed: PetfinderGenericResult[] };

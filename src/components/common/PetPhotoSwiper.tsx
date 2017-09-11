@@ -1,6 +1,6 @@
 import React from 'react';
-import Swiper from 'react-native-swiper';
-import { View, Image, Dimensions, StyleSheet, ViewStyle, ImageStyle } from 'react-native';
+// import Swiper from 'react-native-swiper';
+import { View, Dimensions, StyleSheet, ViewStyle, ImageStyle } from 'react-native';
 import * as colors from '../../config/colors';
 import { styleConstants, rnAPIParams } from '../../config/constants';
 
@@ -31,23 +31,24 @@ interface PetPhotoSwiperProps {
 }
 
 function PetPhotoSwiper({ imageURLs }: PetPhotoSwiperProps) {
+    console.log(imageURLs);
     return (
-        // <View style={style.wrapper}>
-        <Swiper
-            style={style.wrapper}
-            loadMinimal
-            //height={width}
-            //width={width - 20}
-            showsButtons
-            //removeClippedSubviews={false}
-        >
-            {imageURLs.map(uri => (
-                <View key={uri} style={style.slide}>
-                    <Image key={uri} style={style.image} source={{ uri }} />
-                </View>
-            ))}
-        </Swiper>
-        // </View>
+        <View style={style.wrapper}>
+            {/* <Swiper
+                style={style.wrapper}
+                loadMinimal
+                //height={width}
+                //width={width - 20}
+                showsButtons
+                //removeClippedSubviews={false}
+            >
+                {imageURLs.map(uri => (
+                    <View key={uri} style={style.slide}>
+                        <Image key={uri} style={style.image} source={{ uri }} />
+                    </View>
+                ))}
+            </Swiper> */}
+        </View>
     );
 }
 

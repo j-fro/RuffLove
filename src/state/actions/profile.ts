@@ -1,7 +1,5 @@
-import firebase from 'firebase';
+import { databaseRef, Events } from '../../config/database';
 import { ProfileAction, actionTypes } from '../actionTypes';
-
-const USER_PATH = '/Users/';
 
 function changePostalCode(postalCode: string) {
     return { type: actionTypes.change_postal_code, postalCode } as ProfileAction;
@@ -23,7 +21,7 @@ function dispatchProfileUpdates(dispatch: (action: ProfileAction) => void, profi
 export function startProfileListener(userID: string) {
     return (dispatch: (action: ProfileAction) => void) => {
         dispatch({ type: actionTypes.profile_listener_start } as ProfileAction);
-        firebase.database().ref(`${USER_PATH}${userID}`).on('value', snapshot => {
+        databaseRef.user(userID).on(Events.Value, snapshot => {
             if (snapshot) {
                 dispatchProfileUpdates(dispatch, snapshot.val());
             }

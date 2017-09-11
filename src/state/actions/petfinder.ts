@@ -41,8 +41,12 @@ async function fetchPetfinderResults(postalCode: string, type: 'dog' | 'cat'): P
 
 function processPetfinderResults(results: PetfinderSingleResult): Pet | undefined {
     if (results.petfinder.pet != null) {
-        const pet = Pet.fromPetfinder(results.petfinder.pet);
-        return pet;
+        try {
+            const pet = Pet.fromPetfinder(results.petfinder.pet);
+            return pet;
+        } catch (error) {
+            console.log(error);
+        }
     }
 }
 
