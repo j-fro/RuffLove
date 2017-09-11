@@ -13,7 +13,7 @@ import { Pet } from '../../../../state/Pet';
 import { IAppState } from '../../../../state/state';
 import { fetchPets } from '../../../../state/actions';
 import { addNewFavorite } from '../../../../state/actions';
-import { actionTypes } from '../../../../state/actionTypes';
+import { ActionType } from '../../../../state/actionTypes';
 import { homeRoutes } from '../../../../config/routes';
 import PetSwiper from './PetSwiper';
 
@@ -101,7 +101,7 @@ class PetSwiperContainer extends Component<Props, State> {
 
     advancePet() {
         const { dispatch } = this.props;
-        dispatch({ type: actionTypes.advance_pet });
+        dispatch({ type: ActionType.AdvancePet });
         dispatch(fetchPets());
     }
 

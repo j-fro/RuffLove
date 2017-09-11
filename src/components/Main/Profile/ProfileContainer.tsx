@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { IAppState } from '../../../state/state';
-import { actionTypes } from '../../../state/actionTypes';
+import { ActionType } from '../../../state/actionTypes';
+import { logout } from '../../../state/actions/auth';
 import Profile from './Profile';
 
 interface IProfileContainerProps {
@@ -11,19 +12,24 @@ interface IProfileContainerProps {
 }
 
 class ProfileContainer extends Component<IProfileContainerProps, {}> {
-    handleChangePostalCode = (postalCode: string) => {
-        this.props.dispatch({ type: actionTypes.change_postal_code, postalCode });
+    handleChangePostalCode(postalCode: string) {
+        this.props.dispatch({ type: ActionType.ChangePostalCode, postalCode });
     }
 
-    handleChangePetType = () => {
-        this.props.dispatch({ type: actionTypes.switch_pet_type });
+    handleChangePetType() {
+        this.props.dispatch({ type: ActionType.SwitchPetType });
+    }
+
+    handleLogoutPress() {
+        this.props.dispatch(logout());
     }
 
     render() {
         return (
             <Profile
-                onChangePostalCode={this.handleChangePostalCode}
-                onChangePetType={this.handleChangePetType}
+                onChangePostalCode={code => this.handleChangePostalCode(code)}
+                onChangePetType={() => this.handleChangePetType()}
+                onLogoutPress={() => this.handleLogoutPress()}
                 postalCode={this.props.postalCode}
                 petType={this.props.petType}
             />
@@ -31,7 +37,6 @@ class ProfileContainer extends Component<IProfileContainerProps, {}> {
     }
 }
 
-const mapStateToProps = ({ profile }: IAppState) =>
-    ({ postalCode: profile.postalCode, petType: profile.petType });
+const mapStateToProps = ({ profile }: IAppState) => ({ postalCode: profile.postalCode, petType: profile.petType });
 
 export default connect(mapStateToProps)(ProfileContainer);

@@ -1,25 +1,25 @@
 import { Pet } from '../Pet';
-import { PetAction, actionTypes } from '../actionTypes';
+import { PetAction, ActionType } from '../actionTypes';
 import { IAppState } from '../state';
 import { PetfinderSingleResult } from '../PetfinderResult';
 import { buildQueryURL } from '../../utils/urlUtils';
 import config from '../../config/keys';
 
 function requestPets(offset: number) {
-    return { type: actionTypes.request_pets_start, offset } as PetAction;
+    return { type: ActionType.RequestPetsSuccess, offset } as PetAction;
 }
 
 function receivePets(offset: number, pets: Pet[]) {
-    return { type: actionTypes.request_pets_success, offset, pets } as PetAction;
+    return { type: ActionType.RequestPetsSuccess, offset, pets } as PetAction;
 }
 
 function errorPets(error: string, count: number) {
-    return { type: actionTypes.request_pets_failure, error, count } as PetAction;
+    return { type: ActionType.RequestNextPetFailure, error, count } as PetAction;
 }
 
 export function advancePet() {
     return (dispatch: (action: PetAction) => void) => {
-        dispatch({ type: actionTypes.advance_pet } as PetAction);
+        dispatch({ type: ActionType.AdvancePet } as PetAction);
     };
 }
 

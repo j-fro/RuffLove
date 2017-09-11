@@ -1,6 +1,6 @@
 import { Pet } from '../Pet';
 import { PetfinderSingleResult } from '../PetfinderResult';
-import { ActionType, actionTypes, FavoritesAction } from '../actionTypes';
+import { ActionType, FavoritesAction } from '../actionTypes';
 import { databaseRef, Snapshot, Events } from '../../config/database';
 import config from '../../config/keys';
 
@@ -29,7 +29,7 @@ function listenFavoritePets(dispatch: (action: FavoritesAction) => void, userID:
         let favorites = await getFavoritesFromSnapshot(snapshot);
         favorites = filterValidFavorites(favorites);
         dispatch({
-            type: actionTypes.load_favorites_success as ActionType,
+            type: ActionType.LoadFavoritesSuccess,
             favorites
         });
     });
@@ -56,7 +56,7 @@ function fetchFavoritePet(petfinderID: string) {
 
 export function startFavoritesListener(userID: string) {
     return (dispatch: (action: FavoritesAction) => void) => {
-        dispatch({ type: actionTypes.load_favorites_start as ActionType });
+        dispatch({ type: ActionType.LoadFavoritesStart as ActionType });
         listenFavoritePets(dispatch, userID);
     };
 }

@@ -1,6 +1,6 @@
 import { Pet } from '../Pet';
 import { IFavoritesState } from '../state';
-import { FavoritesAction, actionTypes } from '../actionTypes';
+import { FavoritesAction, ActionType } from '../actionTypes';
 
 const initialState: IFavoritesState = {
     isFetching: false,
@@ -9,10 +9,10 @@ const initialState: IFavoritesState = {
 
 export const favoritesReducer = (state = initialState, action: FavoritesAction) => {
     switch (action.type) {
-        case actionTypes.load_favorites_start:
+        case ActionType.LoadFavoritesStart:
             return { ...state, isFetching: true };
-        case actionTypes.load_favorites_success:
-            return { ...state, isFetching: false, favorites: action.favorites }
+        case ActionType.LoadFavoritesSuccess:
+            return { ...state, isFetching: false, favorites: action.favorites };
         default:
             return state;
     }

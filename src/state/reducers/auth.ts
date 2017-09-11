@@ -1,16 +1,16 @@
 import { IAuthState } from '../state';
-import { AuthAction, actionTypes } from '../actionTypes';
+import { AuthAction, ActionType } from '../actionTypes';
 
 export const authReducer = (
     state: IAuthState = { email: '', password: '', authenticated: false, userID: null },
     action: AuthAction
 ) => {
     switch (action.type) {
-        case actionTypes.auth_listen_authenticated:
+        case ActionType.AuthListenAuthenticated:
             return { ...state, authenticated: true, userID: action.userID };
-        case actionTypes.change_email:
+        case ActionType.ChangeEmail:
             return { ...state, email: action.email };
-        case actionTypes.change_password:
+        case ActionType.ChangePassword:
             return { ...state, password: action.password };
         default:
             return state;

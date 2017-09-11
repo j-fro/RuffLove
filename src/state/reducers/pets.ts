@@ -1,6 +1,6 @@
 import { Pet } from '../Pet';
 import { IPetState } from '../state';
-import { PetAction, actionTypes } from '../actionTypes';
+import { PetAction, ActionType } from '../actionTypes';
 
 const initialState: IPetState = {
     isFetching: false,
@@ -12,12 +12,12 @@ const initialState: IPetState = {
 
 export const petsReducer = (state = initialState, action: PetAction) => {
     switch (action.type) {
-        case actionTypes.advance_pet:
+        case ActionType.AdvancePet:
             const [currentPet, ...petQueue] = state.petQueue;
             return { ...state, currentPet, petQueue };
-        case actionTypes.request_pets_start:
+        case ActionType.RequestPetsStart:
             return { ...state, offset: Number(action.offset), isFetching: true };
-        case actionTypes.request_pets_success:
+        case ActionType.RequestPetsSuccess:
             return {
                 ...state,
                 petQueue: state.petQueue.concat(action.pets || []),
@@ -25,7 +25,7 @@ export const petsReducer = (state = initialState, action: PetAction) => {
                 offset: action.offset,
                 error: null
             };
-        case actionTypes.request_pets_failure:
+        case ActionType.RequestPetsFailure:
             return { ...state, error: action.error, isFetching: false, offset: state.offset + 10 };
         default:
             return state;

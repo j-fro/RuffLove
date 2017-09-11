@@ -1,12 +1,12 @@
 import { databaseRef, Events } from '../../config/database';
-import { ProfileAction, actionTypes } from '../actionTypes';
+import { ProfileAction, ActionType } from '../actionTypes';
 
 function changePostalCode(postalCode: string) {
-    return { type: actionTypes.change_postal_code, postalCode } as ProfileAction;
+    return { type: ActionType.ChangePostalCode, postalCode } as ProfileAction;
 }
 
 function changeViewedPetIDs(viewedPetIDs: string[]) {
-    return { type: actionTypes.change_viewed_pets, viewedPetIDs } as ProfileAction;
+    return { type: ActionType.ChangeViewedPets, viewedPetIDs } as ProfileAction;
 }
 
 function dispatchProfileUpdates(dispatch: (action: ProfileAction) => void, profile: any) {
@@ -20,7 +20,7 @@ function dispatchProfileUpdates(dispatch: (action: ProfileAction) => void, profi
 
 export function startProfileListener(userID: string) {
     return (dispatch: (action: ProfileAction) => void) => {
-        dispatch({ type: actionTypes.profile_listener_start } as ProfileAction);
+        dispatch({ type: ActionType.ProfileListenerStart } as ProfileAction);
         databaseRef.user(userID).on(Events.Value, snapshot => {
             if (snapshot) {
                 dispatchProfileUpdates(dispatch, snapshot.val());
