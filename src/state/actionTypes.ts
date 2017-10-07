@@ -11,11 +11,10 @@ export interface Action {
     userID?: string;
 }
 
-export interface ProfileAction {
-    type: ActionType;
-    postalCode?: string;
-    viewedPetIDs?: string[];
-}
+export type ProfileAction =
+    | { type: ActionType.SwitchPetType }
+    | { type: ActionType.ChangePostalCode; postalCode: string }
+    | { type: ActionType.ChangeViewedPets; viewedPetIDs: string[] };
 
 export interface PetAction {
     type: ActionType;
@@ -26,13 +25,15 @@ export interface PetAction {
     count?: number;
 }
 
-export interface AuthAction {
-    type: ActionType;
-    email?: string;
-    password?: string;
-    userID?: string;
-    error?: any;
-}
+// export interface AuthAction {
+//     type: ActionType;
+//     email?: string;
+//     password?: string;
+//     userID?: string;
+//     error?: any;
+// }
+
+export type AuthAction = { type: ActionType.AuthListenAuthenticated; userID: string };
 
 export interface FavoritesAction {
     type: ActionType;

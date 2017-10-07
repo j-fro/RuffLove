@@ -8,7 +8,7 @@ export class Pet {
         public size = '',
         public description = '',
         public sex = '',
-        public imageUrls = new Array<string>()
+        public imageUrls: string[] = []
     ) {}
 
     static fromPetfinder(petfinderResult: PetfinderPetResult): Pet {
@@ -21,8 +21,8 @@ export class Pet {
                 petfinderResult.description.$t,
                 petfinderResult.sex.$t,
                 petfinderResult.media.photos.photo
-                    .filter((photo: any) => photo['@size'] === 'x')
-                    .map((photo: any) => photo.$t)
+                    .filter(photo => photo['@size'] === 'x')
+                    .map(photo => photo.$t)
             );
         } else {
             throw new Error('Cannot make a pet without photos');

@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux';
-import { authReducer as auth } from './auth';
-import { petsReducer as pets } from './pets';
-import { profileReducer as profile } from './profile';
-import { favoritesReducer as favorites } from './favorites';
+import auth from './auth';
+import queue from './queue';
+import profile from './profile';
+import favorites from './favorites';
 
 export default combineReducers({
     auth,
-    pets,
+    queue,
     profile,
     favorites
 });

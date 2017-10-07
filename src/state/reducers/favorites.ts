@@ -1,19 +1,43 @@
-import { Pet } from '../Pet';
-import { IFavoritesState } from '../state';
 import { FavoritesAction, ActionType } from '../actionTypes';
+import { Pet } from '../Pet';
 
-const initialState: IFavoritesState = {
-    isFetching: false,
-    favorites: new Array<Pet>()
+export type FavoritesState = {
+    pets: Pet[];
+    current: Pet | undefined;
+    isFetching: boolean;
+    error: string | undefined;
 };
 
-export const favoritesReducer = (state = initialState, action: FavoritesAction) => {
+const initialState: FavoritesState = {
+    isFetching: false,
+    pets: [],
+    current: undefined,
+    error: undefined
+};
+
+export default function favoritesReducer(
+    state = initialState,
+    action: FavoritesAction
+): FavoritesState {
     switch (action.type) {
         case ActionType.LoadFavoritesStart:
             return { ...state, isFetching: true };
         case ActionType.LoadFavoritesSuccess:
-            return { ...state, isFetching: false, favorites: action.favorites };
+            if (action.favorites) {
+                return { ...state, isFetching: false, pets: action.favorites };
+            }
+            return state;
         default:
             return state;
     }
-};
+}
+
+export function getIsFetching() {}
+
+export function getFavorites() {}
+
+export function getCurrent() {}
+
+export function getCurrentShelter() {}
+
+export function getError() {}
