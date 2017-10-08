@@ -3,6 +3,8 @@ import { View, ScrollView, StyleSheet } from 'react-native';
 import { Text, PetPhotoSwiper } from '../../../common';
 import { PRIMARY, secondaryBackground } from '../../../../config/colors';
 import { Pet } from '../../../../state/Pet';
+import { State, favoritesSelectors } from '../../../../state/reducers';
+import { connect } from 'react-redux';
 
 const styles = StyleSheet.create({
     container: {
@@ -57,4 +59,8 @@ function FavoritesDetails({ pet }: FavoritesDetailsProps) {
     );
 }
 
-export default FavoritesDetails;
+function mapStateToProps(state: State) {
+    return { pet: favoritesSelectors.getCurrent(state) };
+}
+
+export default connect(mapStateToProps)(FavoritesDetails);

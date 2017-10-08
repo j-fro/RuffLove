@@ -1,4 +1,12 @@
-import { firebaseDB, Reference, Snapshot } from './firebase';
+import RNFB, { RNFirebase } from 'react-native-firebase';
+
+const firebase = new RNFB();
+export const firebaseAuth = firebase.auth();
+export const firebaseDB = firebase.database();
+
+export type Snapshot = RNFirebase.database.DataSnapshot;
+export type Reference = RNFirebase.database.Reference;
+export type User = RNFirebase.User;
 
 const USER_PATH = '/Users/';
 const FAVORITES_PATH = '/favorites/';
@@ -32,4 +40,4 @@ enum Events {
     Value = 'value'
 }
 
-export { databaseRef, Snapshot, Events };
+export { databaseRef, Events };

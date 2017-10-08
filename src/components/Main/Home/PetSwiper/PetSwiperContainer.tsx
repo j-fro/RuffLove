@@ -12,7 +12,7 @@ import { NavigationScreenProps } from 'react-navigation';
 import { Pet } from '../../../../state/Pet';
 import { IAppState } from '../../../../state/state';
 import { fetchPets } from '../../../../state/actions';
-import { addNewFavorite } from '../../../../state/actions';
+import { favoritesActions } from '../../../../state/actions';
 import { ActionType } from '../../../../state/actionTypes';
 import { homeRoutes } from '../../../../config/routes';
 import PetSwiper from './PetSwiper';
@@ -90,7 +90,7 @@ class PetSwiperContainer extends Component<Props, State> {
     handleLikePress() {
         console.log('LIKE');
         const { pet, userID } = this.props;
-        addNewFavorite(userID, pet.petfinderID);
+        favoritesActions.addNewFavorite(userID, pet.petfinderID);
         this.advancePet();
     }
 

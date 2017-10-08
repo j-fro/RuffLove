@@ -6,9 +6,9 @@ import { rootRoutes } from '../../config/routes';
 import {
     fetchPets,
     advancePet,
-    listenForAuth,
+    authActions,
     startProfileListener,
-    startFavoritesListener
+    favoritesActions
 } from '../../state/actions';
 import { Login } from '../Login';
 import Home from './Home';
@@ -27,7 +27,7 @@ interface IMainState {}
 class Main extends Component<IMainProps, IMainState> {
     constructor(props: IMainProps, context: any) {
         super(props, context);
-        props.dispatch(listenForAuth());
+        props.dispatch(authActions.startAuthListener());
     }
 
     componentDidMount() {
@@ -39,7 +39,7 @@ class Main extends Component<IMainProps, IMainState> {
         console.log(props);
         const { dispatch, userID } = props;
         dispatch(startProfileListener(userID));
-        dispatch(startFavoritesListener(userID));
+        dispatch(favoritesActions.startFavoritesListener(userID));
     }
 
     render() {

@@ -10,13 +10,8 @@
         "android": "node node_modules/react-native/local-cli/cli.js run-android"
     },
     "dependencies": {
-        "@types/react": "^15.0.20",
-        "@types/react-native": "^0.44",
-        "@types/react-native-swiper": "^1.5.5",
-        "@types/react-redux": "^4.4.38",
-        "@types/redux-logger": "^3.0.0",
         "react": "16.0.0-alpha.12",
-        "react-native": "^0.47.2",
+        "react-native": "^0.48.4",
         "react-native-firebase": "^2.1.4",
         "react-native-swiper": "^1.5.10",
         "react-navigation": "^1.0.0-beta.9",
@@ -26,6 +21,11 @@
         "redux-thunk": "^2.2.0"
     },
     "devDependencies": {
+        "@types/react": "^15.0.20",
+        "@types/react-native": "^0.44",
+        "@types/react-native-swiper": "^1.5.5",
+        "@types/react-redux": "^4.4.38",
+        "@types/redux-logger": "^3.0.0",
         "@types/react-navigation": "^1.0.15",
         "babel-jest": "19.0.0",
         "babel-preset-react-native": "1.9.1",

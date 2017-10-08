@@ -1,7 +1,7 @@
 import { Pet } from './Pet';
 
 export interface IAppState {
-    auth: IAuthState;
+    auth: AuthState;
     profile: IProfileState;
     pets: IPetState;
     favorites: IFavoritesState;
@@ -22,7 +22,7 @@ export interface IProfileState {
     petType: 'cat' | 'dog';
 }
 
-export interface IAuthState {
+export interface AuthState {
     email: string;
     password: string;
     authenticated: boolean;

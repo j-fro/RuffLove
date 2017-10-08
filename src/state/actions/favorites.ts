@@ -1,22 +1,39 @@
+import { Dispatch } from 'redux';
 import { Pet } from '../Pet';
 import { PetfinderSingleResult } from '../PetfinderResult';
-import { ActionType, FavoritesAction } from '../actionTypes';
-import { databaseRef, Snapshot, Events } from '../../config/database';
+import * as api from '../../api';
 import config from '../../config/keys';
 
-export function addNewFavorite(userID: string, petfinderID: string) {
-    return databaseRef.userFavorite(userID, petfinderID).set(new Date().toISOString());
+type Action =
+    | { type: ActionType.LoadFavoritesRequest }
+    | { type: ActionType.LoadFavoritesSuccess; pets: Pet[] }
+    | { type: ActionType.LoadFavoritesFailure; error: string }
+    | { type: ActionType.ViewFavorite; petID: string };
+
+export default Action;
+
+type DispatchFavorites = Dispatch<Action>;
+
+export enum ActionType {
+    LoadFavoritesRequest = 'favorites/LOAD_FAVORITES:REQUEST',
+    LoadFavoritesSuccess = 'favorites/LOAD_FAVORITES:SUCCESS',
+    LoadFavoritesFailure = 'favorites/LOAD_FAVORITES:FAILURE',
+    ViewFavorite = 'favorites/VIEW_FAVORITE'
 }
 
-export function removeFavorite(userID: string, petfinderID: string) {
-    return databaseRef.userFavorite(userID, petfinderID).remove();
+export function addNewFavorite(userID: string, petfinderID: string): Promise<void> {
+    return api.addNewFavorite(userID, petfinderID);
 }
 
-function getFavoritesFromSnapshot(snapshot: Snapshot | null) {
-    if (snapshot) {
-        return Promise.all(Object.keys(snapshot.val() || {}).map(key => fetchFavoritePet(key)));
+export function removeFavorite(userID: string, petfinderID: string): Promise<void> {
+    return api.removeFavorite(userID, petfinderID);
+}
+
+function getFavoritesFromSnapshot(data: { [id: string]: string } | null) {
+    if (data) {
+        return Promise.all(Object.keys(data).map(id => fetchFavoritePet(id)));
     } else {
-        return Promise.reject('');
+        return Promise.reject('Cannot fetch pets without data');
     }
 }
 
@@ -24,14 +41,15 @@ function filterValidFavorites(favorites: Pet[]) {
     return favorites.filter(pet => pet.petfinderID.length > 0);
 }
 
-function listenFavoritePets(dispatch: (action: FavoritesAction) => void, userID: string) {
-    databaseRef.userFavorites(userID).on(Events.Value, async snapshot => {
-        let favorites = await getFavoritesFromSnapshot(snapshot);
-        favorites = filterValidFavorites(favorites);
-        dispatch({
-            type: ActionType.LoadFavoritesSuccess,
-            favorites
-        });
+function listenFavoritePets(dispatch: DispatchFavorites, userID: string) {
+    api.subscribeToFavorites(userID, async data => {
+        try {
+            let favorites = await getFavoritesFromSnapshot(data);
+            favorites = filterValidFavorites(favorites);
+            dispatch(loadFavoritesSuccess(favorites));
+        } catch (error) {
+            dispatch(loadFavoritesFailure(error));
+        }
     });
 }
 
@@ -55,8 +73,24 @@ function fetchFavoritePet(petfinderID: string) {
 }
 
 export function startFavoritesListener(userID: string) {
-    return (dispatch: (action: FavoritesAction) => void) => {
-        dispatch({ type: ActionType.LoadFavoritesStart as ActionType });
+    return (dispatch: DispatchFavorites) => {
+        dispatch(loadFavoritesRequest());
         listenFavoritePets(dispatch, userID);
     };
+}
+
+function loadFavoritesRequest(): Action {
+    return { type: ActionType.LoadFavoritesRequest };
+}
+
+function loadFavoritesSuccess(pets: Pet[]): Action {
+    return { type: ActionType.LoadFavoritesRequest, pets };
+}
+
+function loadFavoritesFailure(error: string): Action {
+    return { type: ActionType.LoadFavoritesFailure, error };
+}
+
+export function viewFavorite(petID: string): Action {
+    return { type: ActionType.ViewFavorite, petID };
 }

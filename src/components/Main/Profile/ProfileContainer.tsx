@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { IAppState } from '../../../state/state';
 import { ActionType } from '../../../state/actionTypes';
-import { logout } from '../../../state/actions/auth';
+import { authActions } from '../../../state/actions';
 import Profile from './Profile';
 
 interface IProfileContainerProps {
@@ -21,7 +21,7 @@ class ProfileContainer extends Component<IProfileContainerProps, {}> {
     }
 
     handleLogoutPress() {
-        this.props.dispatch(logout());
+        this.props.dispatch(authActions.logout());
     }
 
     render() {
@@ -37,6 +37,9 @@ class ProfileContainer extends Component<IProfileContainerProps, {}> {
     }
 }
 
-const mapStateToProps = ({ profile }: IAppState) => ({ postalCode: profile.postalCode, petType: profile.petType });
+const mapStateToProps = ({ profile }: IAppState) => ({
+    postalCode: profile.postalCode,
+    petType: profile.petType
+});
 
 export default connect(mapStateToProps)(ProfileContainer);

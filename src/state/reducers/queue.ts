@@ -1,21 +1,21 @@
 import { Pet } from '../Pet';
 import { PetAction, ActionType } from '../actionTypes';
 
-export type QueueState = {
+export type State = {
     isFetching: boolean;
     pets: Pet[];
     current: Pet | undefined;
     error: string | undefined;
 };
 
-const initialState: QueueState = {
+const initialState: State = {
     isFetching: false,
     pets: [],
     current: undefined,
     error: undefined
 };
 
-export default function queue(state = initialState, action: PetAction): QueueState {
+export default function queue(state = initialState, action: PetAction): State {
     switch (action.type) {
         case ActionType.AdvancePet:
             const [current, ...pets] = state.pets;
@@ -39,10 +39,18 @@ export default function queue(state = initialState, action: PetAction): QueueSta
     }
 }
 
-export function getIsFetching() {}
+export function getIsFetching(state: State): boolean {
+    return state.isFetching;
+}
 
-export function getQueueLength() {}
+export function getQueueLength(state: State): number {
+    return state.pets.length;
+}
 
-export function getCurrent() {}
+export function getCurrent(state: State): Pet | undefined {
+    return state.current;
+}
 
-export function getError() {}
+export function getError(state: State): string | undefined {
+    return state.error;
+}

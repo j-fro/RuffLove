@@ -1,3 +1,3 @@
-import FavoritesDetails from './FavoritesDetailsContainer';
+import FavoritesDetails from './FavoritesDetails';
 
 export default FavoritesDetails;
