@@ -1,7 +1,16 @@
-export * from './petfinder';
-export * from './profile';
+import QueueAction, * as queueActions from './queue';
+import ProfileAction, * as profileActions from './profile';
 
 import FavoritesAction, * as favoritesActions from './favorites';
 import AuthAction, * as authActions from './auth';
 
-export { AuthAction, authActions, FavoritesAction, favoritesActions };
+export {
+    QueueAction,
+    queueActions,
+    AuthAction,
+    authActions,
+    FavoritesAction,
+    favoritesActions,
+    ProfileAction,
+    profileActions
+};

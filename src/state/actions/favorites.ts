@@ -1,8 +1,6 @@
 import { Dispatch } from 'redux';
 import { Pet } from '../Pet';
-import { PetfinderSingleResult } from '../PetfinderResult';
 import * as api from '../../api';
-import config from '../../config/keys';
 
 type Action =
     | { type: ActionType.LoadFavoritesRequest }
@@ -31,7 +29,7 @@ export function removeFavorite(userID: string, petfinderID: string): Promise<voi
 
 function getFavoritesFromSnapshot(data: { [id: string]: string } | null) {
     if (data) {
-        return Promise.all(Object.keys(data).map(id => fetchFavoritePet(id)));
+        return Promise.all(Object.keys(data).map(id => api.getSinglePet(id)));
     } else {
         return Promise.reject('Cannot fetch pets without data');
     }
@@ -51,25 +49,6 @@ function listenFavoritePets(dispatch: DispatchFavorites, userID: string) {
             dispatch(loadFavoritesFailure(error));
         }
     });
-}
-
-function petQuery(petfinderID: string) {
-    const query = `pet.get?id=${petfinderID}`;
-    let url = `https://api.petfinder.com/${query}&format=json&key=${config.key}`;
-    return url;
-}
-
-function fetchFavoritePet(petfinderID: string) {
-    return fetch(petQuery(petfinderID))
-        .then(res => res.json())
-        .then((res: PetfinderSingleResult) => {
-            const { pet } = res.petfinder;
-            if (pet) {
-                return Pet.fromPetfinder(pet);
-            } else {
-                return new Pet('');
-            }
-        });
 }
 
 export function startFavoritesListener(userID: string) {

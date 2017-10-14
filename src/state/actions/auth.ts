@@ -5,6 +5,8 @@ import * as api from '../../api';
 type Action =
     | { type: ActionType.ListenerEventAuthenticated; userID: string }
     | { type: ActionType.ListenerEventUnauthenticated; userID: null }
+    | { type: ActionType.ChangeEmail; email: string }
+    | { type: ActionType.ChangePassword; password: string }
     | { type: Failures; error: string }
     | { type: Requests | Successes };
 
@@ -13,6 +15,8 @@ export default Action;
 type DispatchAuth = Dispatch<Action>;
 
 export enum ActionType {
+    ChangeEmail = 'auth/CHANGE_EMAIL',
+    ChangePassword = 'auth/CHANGE_PASSWORD',
     RegisterRequest = 'auth/REGISTER:REQUEST',
     RegisterSuccess = 'auth/REGISTER:SUCCESS',
     RegisterFailure = 'auth/REGISTER:FAILURE',
@@ -52,6 +56,14 @@ type Failures =
     | ActionType.LoginGoogleFailure
     | ActionType.LogoutFailure
     | ActionType.RegisterFailure;
+
+export function changeEmail(email: string): Action {
+    return { type: ActionType.ChangeEmail, email };
+}
+
+export function changePassword(password: string): Action {
+    return { type: ActionType.ChangePassword, password };
+}
 
 export function register(email: string, password: string) {
     return async (dispatch: DispatchAuth) => {

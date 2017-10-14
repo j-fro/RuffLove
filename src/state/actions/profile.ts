@@ -15,19 +15,23 @@ type DispatchProfile = Dispatch<Action>;
 export enum ActionType {
     ChangePostalCode = 'profile/CHANGE_POSTAL_CODE',
     UpdateViewedPets = 'profile/UPDATE_VIEWED_PETS',
-    TogglePreference = 'profile/TOGGLE_PREFERNCE',
+    TogglePreference = 'profile/TOGGLE_PREFERENCE',
     SetPreference = 'profile/SET_PREFERENCE',
     LoadProfileRequest = 'profile/LOAD_PROFILE:REQUEST',
     LoadProfileSuccess = 'profile/LOAD_PROFILE:SUCCESS',
     LoadProfileFailure = 'profile/LOAD_PROFILE:FAILURE'
 }
 
-function changePostalCode(postalCode: string): Action {
+export function changePostalCode(postalCode: string): Action {
     return { type: ActionType.ChangePostalCode, postalCode };
 }
 
 function changeViewedPetIDs(viewedPetIDs: string[]): Action {
     return { type: ActionType.UpdateViewedPets, viewedPetIDs };
+}
+
+export function togglePreference(): Action {
+    return { type: ActionType.TogglePreference };
 }
 
 function setPreference(preference: string): Action {
