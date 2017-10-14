@@ -47,5 +47,7 @@ export const profileSelectors = {
 export const authSelectors = {
     getUserID: applySelector(fromAuth.getUserID, 'auth'),
     getError: applySelector(fromAuth.getError, 'auth'),
-    getIsAuthenticated: applySelector(fromAuth.getIsAuthenticated, 'auth')
+    getIsAuthenticated: applySelector(fromAuth.getIsAuthenticated, 'auth'),
+    getEmail: applySelector(fromAuth.getEmail, 'auth'),
+    getPassword: applySelector(fromAuth.getPassword, 'auth')
 };
