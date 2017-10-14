@@ -1,4 +1,4 @@
-import { PetfinderPetResult } from './PetfinderResult';
+import { PetfinderPetResult } from '../api/PetfinderResult';
 
 export class Pet {
     constructor(

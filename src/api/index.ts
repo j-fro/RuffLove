@@ -1,4 +1,5 @@
 import * as firebase from './firebase';
+export { getRandomPets, getSinglePet } from './petfinder';
 
 export function createEmailUser(email: string, password: string): Promise<firebase.User> {
     return firebase.firebaseAuth.createUserWithEmailAndPassword(email, password);
