@@ -1,6 +1,5 @@
-import RNFB, { RNFirebase } from 'react-native-firebase';
+import firebase, { RNFirebase } from 'react-native-firebase';
 
-const firebase = new RNFB();
 export const firebaseAuth = firebase.auth();
 export const firebaseDB = firebase.database();
 
