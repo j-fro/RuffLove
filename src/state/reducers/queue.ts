@@ -1,6 +1,5 @@
 import { Pet } from '../Pet';
-import { QueueAction as Action, queueActions } from '../actions';
-const { ActionType } = queueActions;
+import { QueueAction as Action, queueActions as qa } from '../actions';
 
 export type State = {
     isFetching: boolean;
@@ -18,19 +17,19 @@ const initialState: State = {
 
 export default function queue(state = initialState, action: Action): State {
     switch (action.type) {
-        case ActionType.AdvancePet:
+        case qa.ActionType.AdvancePet:
             const [current, ...pets] = state.pets;
             return { ...state, current, pets };
-        case ActionType.GetPetsRequest:
+        case qa.ActionType.GetPetsRequest:
             return { ...state, isFetching: true };
-        case ActionType.GetPetsSuccess:
+        case qa.ActionType.GetPetsSuccess:
             return {
                 ...state,
                 pets: [...state.pets, ...action.pets],
                 isFetching: false,
                 error: undefined
             };
-        case ActionType.GetPetsFailure:
+        case qa.ActionType.GetPetsFailure:
             return { ...state, error: action.error, isFetching: false };
         default:
             return state;

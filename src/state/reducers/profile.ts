@@ -1,5 +1,4 @@
-import { ProfileAction as Action, profileActions } from '../actions';
-const { ActionType } = profileActions;
+import { ProfileAction as Action, profileActions as pa } from '../actions';
 
 export enum PetPreference {
     Dog = 'dog',
@@ -22,14 +21,14 @@ const initialState: State = {
 
 export default function profile(state = initialState, action: Action): State {
     switch (action.type) {
-        case ActionType.ChangePostalCode:
+        case pa.ActionType.ChangePostalCode:
             return { ...state, postalCode: String(action.postalCode) };
-        case ActionType.TogglePreference:
+        case pa.ActionType.TogglePreference:
             return {
                 ...state,
                 preference: togglePreference(state)
             };
-        case ActionType.UpdateViewedPets:
+        case pa.ActionType.UpdateViewedPets:
             return { ...state, viewedPetIDs: action.viewedPetIDs };
         default:
             return state;

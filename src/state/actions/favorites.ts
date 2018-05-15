@@ -27,11 +27,11 @@ export function removeFavorite(userID: string, petfinderID: string): Promise<voi
     return api.removeFavorite(userID, petfinderID);
 }
 
-function getFavoritesFromSnapshot(data: { [id: string]: string } | null) {
+async function getFavoritesFromSnapshot(data: { [id: string]: string } | null) {
     if (data) {
         return Promise.all(Object.keys(data).map(id => api.getSinglePet(id)));
     } else {
-        return Promise.reject('Cannot fetch pets without data');
+        return [];
     }
 }
 
@@ -63,7 +63,7 @@ function loadFavoritesRequest(): Action {
 }
 
 function loadFavoritesSuccess(pets: Pet[]): Action {
-    return { type: ActionType.LoadFavoritesRequest, pets };
+    return { type: ActionType.LoadFavoritesSuccess, pets };
 }
 
 function loadFavoritesFailure(error: string): Action {

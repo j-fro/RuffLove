@@ -7,13 +7,17 @@ import {
     LayoutChangeEvent,
     Dimensions
 } from 'react-native';
+import { Action } from 'redux';
 import { connect } from 'react-redux';
 import { NavigationScreenProps } from 'react-navigation';
 import { Pet } from '../../../../state/Pet';
-import { IAppState } from '../../../../state/state';
-import { fetchPets } from '../../../../state/actions';
-import { favoritesActions } from '../../../../state/actions';
-import { ActionType } from '../../../../state/actionTypes';
+import {
+    State as AppState,
+    authSelectors,
+    queueSelectors,
+    profileSelectors
+} from '../../../../state/reducers';
+import { queueActions, favoritesActions } from '../../../../state/actions';
 import { homeRoutes } from '../../../../config/routes';
 import PetSwiper from './PetSwiper';
 
@@ -21,7 +25,8 @@ type Props = NavigationScreenProps<void> & {
     userID: string;
     pet: Pet;
     isFetching: boolean;
-    dispatch: Function;
+    fetchPets: () => () => Promise<void>;
+    advancePet: () => Action;
     offset: number;
     postalCode: string;
 };
@@ -100,9 +105,8 @@ class PetSwiperContainer extends Component<Props, State> {
     }
 
     advancePet() {
-        const { dispatch } = this.props;
-        dispatch({ type: ActionType.AdvancePet });
-        dispatch(fetchPets());
+        this.props.advancePet();
+        this.props.fetchPets();
     }
 
     handleDetailsPress() {
@@ -127,17 +131,21 @@ class PetSwiperContainer extends Component<Props, State> {
     }
 }
 
-function mapStateToProps({ pets, profile, auth }: IAppState) {
+function mapStateToProps(state: AppState) {
     return {
-        userID: auth.userID,
-        pet: pets.petQueue[0],
-        isFetching: pets.isFetching,
-        offset: pets.offset,
-        postalCode: profile.postalCode
+        userID: authSelectors.getUserID(state),
+        pet: queueSelectors.getCurrent(state),
+        isFetching: queueSelectors.getIsFetching(state),
+        postalCode: profileSelectors.getProfile(state).postalCode
     };
 }
 
-export default connect(mapStateToProps)(PetSwiperContainer);
+const mapDispatchToProps = {
+    fetchPets: queueActions.fetchPets,
+    advancePet: queueActions.advancePet
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(PetSwiperContainer);
 
 function getSwipeSpeed(gesture: PanResponderGestureState) {
     const { vx, vy } = gesture;

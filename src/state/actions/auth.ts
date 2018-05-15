@@ -1,4 +1,3 @@
-// import { firebaseAuth, User } from '../../config/firebase';
 import { Dispatch } from 'redux';
 import * as api from '../../api';
 

@@ -1,35 +1,26 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { IAppState } from '../../../state/state';
-import { ActionType } from '../../../state/actionTypes';
-import { authActions } from '../../../state/actions';
+import { authActions, profileActions } from '../../../state/actions';
 import Profile from './Profile';
+import { Action } from 'redux';
 
 interface IProfileContainerProps {
     petType: 'dog' | 'cat';
     postalCode: string;
     dispatch: Function;
+    changePostalCode: (code: string) => Action;
+    togglePreference: () => Action;
+    logout: () => () => Promise<void>;
 }
 
 class ProfileContainer extends Component<IProfileContainerProps, {}> {
-    handleChangePostalCode(postalCode: string) {
-        this.props.dispatch({ type: ActionType.ChangePostalCode, postalCode });
-    }
-
-    handleChangePetType() {
-        this.props.dispatch({ type: ActionType.SwitchPetType });
-    }
-
-    handleLogoutPress() {
-        this.props.dispatch(authActions.logout());
-    }
-
     render() {
         return (
             <Profile
-                onChangePostalCode={code => this.handleChangePostalCode(code)}
-                onChangePetType={() => this.handleChangePetType()}
-                onLogoutPress={() => this.handleLogoutPress()}
+                onChangePostalCode={this.props.changePostalCode}
+                onChangePetType={this.props.togglePreference}
+                onLogoutPress={this.props.logout}
                 postalCode={this.props.postalCode}
                 petType={this.props.petType}
             />
@@ -42,4 +33,12 @@ const mapStateToProps = ({ profile }: IAppState) => ({
     petType: profile.petType
 });
 
-export default connect(mapStateToProps)(ProfileContainer);
+function mapDispatchToProps() {
+    return {
+        changePostalCode: profileActions.changePostalCode,
+        togglePreference: profileActions.togglePreference,
+        logout: authActions.logout
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileContainer);

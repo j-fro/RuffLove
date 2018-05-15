@@ -1,5 +1,4 @@
 import { AuthAction as Action, authActions } from '../actions';
-const { ActionType } = authActions;
 
 export type State = {
     isAuthenticated: boolean;
@@ -19,16 +18,16 @@ const initialState: State = {
 
 function auth(state = initialState, action: Action): State {
     switch (action.type) {
-        case ActionType.LoginEmailRequest:
-        case ActionType.RegisterRequest:
+        case authActions.ActionType.LoginEmailRequest:
+        case authActions.ActionType.RegisterRequest:
             return { ...state, password: '' };
-        case ActionType.ListenerEventAuthenticated:
+        case authActions.ActionType.ListenerEventAuthenticated:
             return { ...state, isAuthenticated: true, userID: action.userID };
-        case ActionType.ListenerEventUnauthenticated:
+        case authActions.ActionType.ListenerEventUnauthenticated:
             return { ...state, isAuthenticated: false, userID: '' };
-        case ActionType.ChangeEmail:
+        case authActions.ActionType.ChangeEmail:
             return { ...state, email: action.email };
-        case ActionType.ChangePassword:
+        case authActions.ActionType.ChangePassword:
             return { ...state, password: action.password };
         default:
             return state;
@@ -37,11 +36,11 @@ function auth(state = initialState, action: Action): State {
 
 export default function handleError(state = initialState, action: Action): State {
     switch (action.type) {
-        case ActionType.LoginEmailFailure:
-        case ActionType.LoginFacebookFailure:
-        case ActionType.LoginGoogleFailure:
-        case ActionType.LogoutFailure:
-        case ActionType.RegisterFailure:
+        case authActions.ActionType.LoginEmailFailure:
+        case authActions.ActionType.LoginFacebookFailure:
+        case authActions.ActionType.LoginGoogleFailure:
+        case authActions.ActionType.LogoutFailure:
+        case authActions.ActionType.RegisterFailure:
             return auth({ ...state, error: action.error }, action);
         default:
             return auth({ ...state, error: undefined }, action);
