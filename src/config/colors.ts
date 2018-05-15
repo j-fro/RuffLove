@@ -1,5 +1,5 @@
-export const PRIMARY = '#6495ED';
-export const primaryBackground = '#C0A58C';
-export const textColor = '#1B355B';
-export const secondaryBackground = '#CEDFDA';
-export const tertiaryColor = '#DA654D';
+export const PRIMARY = '#FFFFFF';
+export const primaryBackground = '#FFFFFF';
+export const textColor = '#AB512E';
+export const secondaryBackground = '#FF68AD';
+export const tertiaryColor = '#FFD78A';
